@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="app.diagrams.net">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1768" dy="996" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="786" dy="460" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -52,7 +51,7 @@
         <mxCell id="BankAccount-divider" parent="BankAccount" style="line;strokeColor=#d6b656;" value="" vertex="1">
           <mxGeometry height="10" width="300" y="110" as="geometry" />
         </mxCell>
-        <mxCell id="BankAccount-methods" parent="BankAccount" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ getAccountInfo() : String&lt;br&gt;+ updateBalance(amount: Double) : void&lt;br&gt;+ getLastTransaction() : Transaction&lt;br&gt;+ validateAccountNo(accountNo: String) : Boolean&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;pre class=&quot;overflow-visible! px-0!&quot; data-start=&quot;2180&quot; data-end=&quot;2228&quot;&gt;&lt;div class=&quot;relative w-full mt-4 mb-1&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;div class=&quot;relative&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;" vertex="1">
+        <mxCell id="BankAccount-methods" parent="BankAccount" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ getAccountInfo(userID: String) : String&lt;br&gt;+ updateBalance(amount: Double,accountNo: String) : void&lt;br&gt;+ getLastTransaction(accountNo: String) : Transaction&lt;br&gt;+ validateAccountNo(accountNo: String) : Boolean&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;pre class=&quot;overflow-visible! px-0!&quot; data-start=&quot;2180&quot; data-end=&quot;2228&quot;&gt;&lt;div class=&quot;relative w-full mt-4 mb-1&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;div class=&quot;relative&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;" vertex="1">
           <mxGeometry height="115" width="300" y="120" as="geometry" />
         </mxCell>
         <mxCell id="Transaction" parent="1" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" value="Transaction" vertex="1">
@@ -87,7 +86,7 @@
         <mxCell id="AuthService-divider" parent="AuthService" style="line;strokeColor=#b85450;" value="" vertex="1">
           <mxGeometry height="10" width="310" y="75" as="geometry" />
         </mxCell>
-        <mxCell id="AuthService-methods" parent="AuthService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ authenticate(email: String, password: String) : Boolean&lt;br&gt;- validateEmail(email: String) : Boolean&lt;br&gt;- validatePassword(password: String) : Boolean&lt;div&gt;+ redirectAfterLogin(role: String) : String&lt;/div&gt;" vertex="1">
+        <mxCell id="AuthService-methods" parent="AuthService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ authenticate(email: String, password: String) : String&lt;br&gt;- validateEmail(email: String) : Boolean&lt;br&gt;- validatePassword(password: String) : Boolean&lt;div&gt;+ redirectAfterLogin(role: String) : String&lt;/div&gt;" vertex="1">
           <mxGeometry height="130" width="310" y="85" as="geometry" />
         </mxCell>
         <mxCell id="ValidationService" parent="1" style="swimlane;startSize=35;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" value="Validation_Service" vertex="1">
