@@ -1,5 +1,7 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.models.Admin;
+import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -39,7 +41,7 @@ public class AdminDeleteAccountFrame extends BaseFrame {
 
         JButton deleteButton = createButton("Delete");
         deleteButton.setBounds(300, 400, 150, 60);
-        deleteButton.addActionListener(e -> handleDelete());
+        deleteButton.addActionListener(e -> handleDeleteAccount());
 
         pagePanel.add(homeButton);
         pagePanel.add(titleLabel);
@@ -52,14 +54,34 @@ public class AdminDeleteAccountFrame extends BaseFrame {
         setContentPane(rootPanel);
     }
 
-    private void handleDelete() {
-        if (accountNoField.getText().trim().isEmpty()) {
+    private void handleDeleteAccount() {
+        String accountNo = accountNoField.getText().trim();
+
+        if (accountNo.isEmpty()) {
             showError("Please enter an account number.");
             return;
         }
 
-        // TODO: implement real admin delete account logic.
-        showSuccess("Delete account request submitted.");
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateAccountNo(accountNo)) {
+            showError("Invalid account number.");
+            return;
+        }
+
+        if (!validationService.isAccountExists(accountNo)) {
+            showError("Account number does not exist.");
+            return;
+        }
+
+        Admin admin = new Admin();
+        boolean deleted = admin.deleteClientAccount(accountNo);
+
+        if (deleted) {
+            showSuccess("Account deleted successfully.");
+        } else {
+            showError("Account deletion failed.");
+        }
     }
 
     private void handleHome() {

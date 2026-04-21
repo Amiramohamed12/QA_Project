@@ -6,11 +6,11 @@ import java.util.List;
 
 /**
  * Client model class extending AbstractUser.
- * A Client can own up to 3 BankAccounts.
+ * A Client can own up to 2 BankAccounts.
  */
 public class Client extends AbstractUser {
 
-    private List<BankAccount> accounts; // max = 3
+    private List<BankAccount> accounts; // max = 2
 
     public Client() {
         super();
@@ -50,8 +50,10 @@ public class Client extends AbstractUser {
      * @return the created BankAccount or null
      */
     public BankAccount createAccount(AccountType type) {
-        // TODO: implement backend logic later
-        return null;
+        // TODO: Save the new account in the database later.
+        BankAccount account = new BankAccount("12345", type, 0.0, getUserID());
+        accounts.add(account);
+        return account;
     }
 
     /**
@@ -59,8 +61,17 @@ public class Client extends AbstractUser {
      * @return list of account info
      */
     public List<String> viewAccountInfo(String userID) {
-        // TODO: implement backend logic later
-        return new ArrayList<>();
+        // TODO: Load account info from the database later.
+        List<String> accountInfo = new ArrayList<>();
+
+        if ("12341".equals(userID)) {
+            accountInfo.add("12345,2500.0");
+            accountInfo.add("12346,3200.0");
+        } else if ("12342".equals(userID)) {
+            accountInfo.add("12347,1500.0");
+        }
+
+        return accountInfo;
     }
 
     /**
@@ -68,8 +79,19 @@ public class Client extends AbstractUser {
      * @return list of transactions
      */
     public List<String> viewTransactionHistory(String accountNo) {
-        // TODO: implement backend logic later
-        return new ArrayList<>();
+        // TODO: Load transaction history from the database later.
+        List<String> history = new ArrayList<>();
+
+        if ("12345".equals(accountNo)) {
+            history.add("21/4,DEPOSIT,1500.0");
+            history.add("20/4,WITHDRAW,1000.0");
+            history.add("19/4,FUND_TRANSFER,2000.0");
+        } else if ("54321".equals(accountNo)) {
+            history.add("21/4,DEPOSIT,3000.0");
+            history.add("18/4,WITHDRAW,1200.0");
+        }
+
+        return history;
     }
 
     /**
@@ -77,8 +99,8 @@ public class Client extends AbstractUser {
      * @return true if deposit succeeds
      */
     public boolean deposit(String accountNo, double amount) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Deposit amount into the account in the database later.
+        return true;
     }
 
     /**
@@ -86,8 +108,8 @@ public class Client extends AbstractUser {
      * @return true if withdrawal succeeds
      */
     public boolean withdraw(String accountNo, double amount) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Withdraw amount from the account in the database later.
+        return true;
     }
 
     /**
@@ -95,8 +117,8 @@ public class Client extends AbstractUser {
      * @return true if transfer succeeds
      */
     public boolean fundTransfer(String fromAcc, String toAcc, double amount) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Transfer funds between accounts in the database later.
+        return true;
     }
 
     /**

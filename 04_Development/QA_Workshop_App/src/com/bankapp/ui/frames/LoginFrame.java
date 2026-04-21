@@ -1,5 +1,6 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.services.AuthService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -60,33 +61,27 @@ public class LoginFrame extends BaseFrame {
         String email = emailField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            showError("Please enter email and password.");
+        AuthService authService = new AuthService();
+        String role = authService.authenticate(email, password);
+
+        openNextFrame(role);
+    }
+
+    private void openNextFrame(String role) {
+        if ("ADMIN".equals(role)) {
+            openFrame(new AdminHomeFrame());
             return;
         }
 
-        // TODO: implement real login logic.
-        Object[] options = {"Client Home", "Admin Home", "Cancel"};
-        int choice = JOptionPane.showOptionDialog(
-                this,
-                "Front-end only demo.\nChoose which home page to open.",
-                "Login",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-
-        if (choice == 0) {
+        if ("CLIENT".equals(role)) {
             openFrame(new UserHomeFrame());
-        } else if (choice == 1) {
-            openFrame(new AdminHomeFrame());
+            return;
         }
+
+        showError("Invalid email or password.");
     }
 
     private void handleCreateAccount() {
-        // TODO: connect registration navigation to real auth flow.
         openFrame(new RegistrationFrame());
     }
 }

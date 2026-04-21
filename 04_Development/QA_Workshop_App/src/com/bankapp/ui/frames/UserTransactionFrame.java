@@ -1,9 +1,12 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.models.Client;
+import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 /**
  * Single client transaction page with tabs.
@@ -18,6 +21,7 @@ public class UserTransactionFrame extends BaseFrame {
     private JTextField transferFromField;
     private JTextField transferAmountField;
     private JTextField historyAccountField;
+    private DefaultTableModel historyTableModel;
 
     public UserTransactionFrame() {
         super("BankApp - Transaction");
@@ -163,15 +167,9 @@ public class UserTransactionFrame extends BaseFrame {
         transactionsLabel.setBounds(20, 75, 250, 30);
 
         String[] columns = {"Date", "Type", "Amount"};
-        Object[][] rows = {
-                {"12/4", "Deposit", "500"},
-                {"13/4", "Withdraw", "200"},
-                {"14/4", "Transfer", "900"},
-                {"15/4", "Deposit", "350"},
-                {"16/4", "Withdraw", "120"}
-        };
+        historyTableModel = new DefaultTableModel(columns, 0);
 
-        JTable historyTable = new JTable(new DefaultTableModel(rows, columns));
+        JTable historyTable = new JTable(historyTableModel);
         styleTable(historyTable, false, true);
 
         JScrollPane scrollPane = new JScrollPane(historyTable);
@@ -191,45 +189,187 @@ public class UserTransactionFrame extends BaseFrame {
     }
 
     private void handleDeposit() {
-        if (depositAccountField.getText().trim().isEmpty() || depositAmountField.getText().trim().isEmpty()) {
+        String accountNo = depositAccountField.getText().trim();
+        String amountText = depositAmountField.getText().trim();
+
+        if (accountNo.isEmpty() || amountText.isEmpty()) {
             showError("Please enter account number and amount.");
             return;
         }
 
-        // TODO: implement real deposit logic.
-        showSuccess("Deposit request submitted.");
+        double amount = parseAmount(amountText);
+
+        if (amount < 0) {
+            return;
+        }
+
+        if (!validateAccountAndAmount(accountNo, amount)) {
+            return;
+        }
+
+        Client client = new Client();
+        boolean deposited = client.deposit(accountNo, amount);
+
+        if (deposited) {
+            showSuccess("Deposit completed successfully.");
+        } else {
+            showError("Deposit failed.");
+        }
     }
 
     private void handleWithdraw() {
-        if (withdrawAccountField.getText().trim().isEmpty() || withdrawAmountField.getText().trim().isEmpty()) {
+        String accountNo = withdrawAccountField.getText().trim();
+        String amountText = withdrawAmountField.getText().trim();
+
+        if (accountNo.isEmpty() || amountText.isEmpty()) {
             showError("Please enter account number and amount.");
             return;
         }
 
-        // TODO: implement real withdraw logic.
-        showSuccess("Withdraw request submitted.");
+        double amount = parseAmount(amountText);
+
+        if (amount < 0) {
+            return;
+        }
+
+        if (!validateAccountAndAmount(accountNo, amount)) {
+            return;
+        }
+
+        Client client = new Client();
+        boolean withdrawn = client.withdraw(accountNo, amount);
+
+        if (withdrawn) {
+            showSuccess("Withdraw completed successfully.");
+        } else {
+            showError("Withdraw failed.");
+        }
     }
 
     private void handleFundTransfer() {
-        if (transferToField.getText().trim().isEmpty()
-                || transferFromField.getText().trim().isEmpty()
-                || transferAmountField.getText().trim().isEmpty()) {
+        String toAcc = transferToField.getText().trim();
+        String fromAcc = transferFromField.getText().trim();
+        String amountText = transferAmountField.getText().trim();
+
+        if (toAcc.isEmpty() || fromAcc.isEmpty() || amountText.isEmpty()) {
             showError("Please fill in all fund transfer fields.");
             return;
         }
 
-        // TODO: implement real fund transfer logic.
-        showSuccess("Fund transfer request submitted.");
+        if (fromAcc.equals(toAcc)) {
+            showError("From account and to account cannot be the same.");
+            return;
+        }
+
+        double amount = parseAmount(amountText);
+
+        if (amount < 0) {
+            return;
+        }
+
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateAccountNo(fromAcc)) {
+            showError("Invalid from account number.");
+            return;
+        }
+
+        if (!validationService.validateAccountNo(toAcc)) {
+            showError("Invalid to account number.");
+            return;
+        }
+
+        if (!validationService.isAccountExists(fromAcc)) {
+            showError("From account does not exist.");
+            return;
+        }
+
+        if (!validationService.isAccountExists(toAcc)) {
+            showError("To account does not exist.");
+            return;
+        }
+
+        if (!validationService.validateAmount(amount)) {
+            showError("Invalid amount.");
+            return;
+        }
+
+        Client client = new Client();
+        boolean transferred = client.fundTransfer(fromAcc, toAcc, amount);
+
+        if (transferred) {
+            showSuccess("Fund transfer completed successfully.");
+        } else {
+            showError("Fund transfer failed.");
+        }
     }
 
     private void handleHistorySearch() {
-        if (historyAccountField.getText().trim().isEmpty()) {
+        String accountNo = historyAccountField.getText().trim();
+
+        if (accountNo.isEmpty()) {
             showError("Please enter an account number.");
             return;
         }
 
-        // TODO: load transaction history from backend.
-        showSuccess("Showing sample transaction history.");
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateAccountNo(accountNo)) {
+            showError("Invalid account number.");
+            return;
+        }
+
+        if (!validationService.isAccountExists(accountNo)) {
+            showError("Account number does not exist.");
+            return;
+        }
+
+        Client client = new Client();
+        List<String> transactions = client.viewTransactionHistory(accountNo);
+
+        historyTableModel.setRowCount(0);
+
+        for (String transaction : transactions) {
+            String[] transactionData = transaction.split(",", 3);
+
+            if (transactionData.length == 3) {
+                historyTableModel.addRow(new Object[] {
+                        transactionData[0],
+                        transactionData[1],
+                        transactionData[2]
+                });
+            }
+        }
+    }
+
+    private double parseAmount(String amountText) {
+        try {
+            return Double.parseDouble(amountText);
+        } catch (NumberFormatException e) {
+            showError("Invalid amount.");
+            return -1;
+        }
+    }
+
+    private boolean validateAccountAndAmount(String accountNo, double amount) {
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateAccountNo(accountNo)) {
+            showError("Invalid account number.");
+            return false;
+        }
+
+        if (!validationService.isAccountExists(accountNo)) {
+            showError("Account number does not exist.");
+            return false;
+        }
+
+        if (!validationService.validateAmount(amount)) {
+            showError("Invalid amount.");
+            return false;
+        }
+
+        return true;
     }
 
     private void handleHome() {

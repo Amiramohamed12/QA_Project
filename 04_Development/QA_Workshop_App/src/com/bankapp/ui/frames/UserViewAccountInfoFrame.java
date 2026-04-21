@@ -1,14 +1,19 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.models.Client;
+import com.bankapp.services.SessionManager;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 /**
  * Client account info page.
  */
 public class UserViewAccountInfoFrame extends BaseFrame {
+
+    private DefaultTableModel tableModel;
 
     public UserViewAccountInfoFrame() {
         super("BankApp - View Account Info");
@@ -31,13 +36,9 @@ public class UserViewAccountInfoFrame extends BaseFrame {
         logoutButton.addActionListener(e -> handleLogout());
 
         String[] columns = {"Account Number", "Balance"};
-        Object[][] rows = {
-                {"10001", "15,000"},
-                {"10002", "8,300"},
-                {"10003", "22,150"}
-        };
+        tableModel = new DefaultTableModel(columns, 0);
 
-        JTable accountTable = new JTable(new DefaultTableModel(rows, columns));
+        JTable accountTable = new JTable(tableModel);
         styleTable(accountTable, false, true);
 
         JScrollPane scrollPane = new JScrollPane(accountTable);
@@ -51,6 +52,30 @@ public class UserViewAccountInfoFrame extends BaseFrame {
 
         rootPanel.add(pagePanel);
         setContentPane(rootPanel);
+
+        loadAccountInfo();
+    }
+
+    private void loadAccountInfo() {
+        String userID = SessionManager.getCurrentUserId();
+
+        if (userID == null || userID.isEmpty()) {
+            showError("No active user session.");
+            return;
+        }
+
+        Client client = new Client();
+        List<String> accounts = client.viewAccountInfo(userID);
+
+        tableModel.setRowCount(0);
+
+        for (String account : accounts) {
+            String[] accountData = account.split(",", 2);
+
+            if (accountData.length == 2) {
+                tableModel.addRow(new Object[] {accountData[0], accountData[1]});
+            }
+        }
     }
 
     private void handleHome() {
@@ -59,7 +84,7 @@ public class UserViewAccountInfoFrame extends BaseFrame {
     }
 
     private void handleLogout() {
-        // TODO: clear user session when backend is ready.
+        SessionManager.clearSession();
         openFrame(new LoginFrame());
     }
 }

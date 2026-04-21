@@ -1,5 +1,6 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -65,7 +66,7 @@ public class RegistrationFrame extends BaseFrame {
 
         JButton submitButton = createButton("Submit");
         submitButton.setBounds(310, 445, 150, 60);
-        submitButton.addActionListener(e -> handleSubmit());
+        submitButton.addActionListener(e -> handleRegister());
 
         pagePanel.add(titleLabel);
         pagePanel.add(firstNameLabel);
@@ -84,18 +85,64 @@ public class RegistrationFrame extends BaseFrame {
         setContentPane(rootPanel);
     }
 
-    private void handleSubmit() {
-        if (firstNameField.getText().trim().isEmpty()
-                || lastNameField.getText().trim().isEmpty()
-                || ssnField.getText().trim().isEmpty()
-                || emailField.getText().trim().isEmpty()
-                || new String(passwordField.getPassword()).trim().isEmpty()) {
-            showError("Please fill in all registration fields.");
+    private void handleRegister() {
+        String firstName = getTrimmedText(firstNameField);
+        String lastName = getTrimmedText(lastNameField);
+        String email = getTrimmedText(emailField);
+        String ssn = getTrimmedText(ssnField);
+        String password = getTrimmedPassword(passwordField);
+
+        if (!validateRegistrationInput(firstName, lastName, email, ssn, password)) {
             return;
         }
 
-        // TODO: implement real registration logic.
-        showSuccess("Registration submitted.");
-        openFrame(new LoginFrame());
+        // TODO: Save registration data to the database later.
+        showSuccess("Registration data is valid.");
+    }
+
+    private String getTrimmedText(JTextField field) {
+        return field.getText().trim();
+    }
+
+    private String getTrimmedPassword(JPasswordField field) {
+        return new String(field.getPassword()).trim();
+    }
+
+    private boolean validateRegistrationInput(String firstName, String lastName,
+                                              String email, String ssn, String password) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()
+                || ssn.isEmpty() || password.isEmpty()) {
+            showError("Please fill all fields.");
+            return false;
+        }
+
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateName(firstName)) {
+            showError("Invalid first name.");
+            return false;
+        }
+
+        if (!validationService.validateName(lastName)) {
+            showError("Invalid last name.");
+            return false;
+        }
+
+        if (!validationService.validateEmail(email)) {
+            showError("Invalid email.");
+            return false;
+        }
+
+        if (!validationService.validateSSN(ssn)) {
+            showError("Invalid SSN.");
+            return false;
+        }
+
+        if (!validationService.validatePassword(password)) {
+            showError("Invalid password.");
+            return false;
+        }
+
+        return true;
     }
 }

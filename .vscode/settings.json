@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"c:\\\\Users\\\\shady gamal\\\\OneDrive\\\\Desktop\\\\QA_Workshop\"; git add 04_Development/QA_Workshop_App/$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.services.SessionManager;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -83,7 +84,7 @@ public class AdminHomeFrame extends BaseFrame {
     }
 
     private void handleLogout() {
-        // TODO: clear admin session when backend is ready.
+        SessionManager.clearSession();
         openFrame(new LoginFrame());
     }
 }

@@ -1,5 +1,7 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.models.Admin;
+import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -69,7 +71,7 @@ public class AdminEditAccountFrame extends BaseFrame {
         saveButton = createButton("Save");
         saveButton.setBounds(370, 455, 150, 60);
         saveButton.setEnabled(false);
-        saveButton.addActionListener(e -> handleSave());
+        saveButton.addActionListener(e -> handleEditAccount());
 
         pagePanel.add(homeButton);
         pagePanel.add(titleLabel);
@@ -90,8 +92,22 @@ public class AdminEditAccountFrame extends BaseFrame {
     }
 
     private void handleSearch() {
-        if (userIdField.getText().trim().isEmpty()) {
+        String userID = userIdField.getText().trim();
+
+        if (userID.isEmpty()) {
             showError("Please enter a user ID.");
+            return;
+        }
+
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateUserID(userID)) {
+            showError("Invalid user ID.");
+            return;
+        }
+
+        if (!validationService.isUserIDExists(userID)) {
+            showError("User ID does not exist.");
             return;
         }
 
@@ -108,16 +124,57 @@ public class AdminEditAccountFrame extends BaseFrame {
         showSuccess("Sample user data loaded.");
     }
 
-    private void handleSave() {
-        if (firstNameField.getText().trim().isEmpty()
-                || lastNameField.getText().trim().isEmpty()
-                || emailField.getText().trim().isEmpty()) {
+    private void handleEditAccount() {
+        String userID = userIdField.getText().trim();
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
+        String email = emailField.getText().trim();
+
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateUserID(userID)) {
+            showError("Invalid user ID.");
+            return;
+        }
+
+        if (!validationService.isUserIDExists(userID)) {
+            showError("User ID does not exist.");
+            return;
+        }
+
+        if (firstName.isEmpty() && lastName.isEmpty() && email.isEmpty()) {
+            showError("No data updated.");
+            return;
+        }
+
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()) {
             showError("Please fill in all editable fields.");
             return;
         }
 
-        // TODO: implement real admin save logic.
-        showSuccess("Account info saved.");
+        if (!validationService.validateName(firstName)) {
+            showError("Invalid first name.");
+            return;
+        }
+
+        if (!validationService.validateName(lastName)) {
+            showError("Invalid last name.");
+            return;
+        }
+
+        if (!validationService.validateEmail(email)) {
+            showError("Invalid email.");
+            return;
+        }
+
+        Admin admin = new Admin();
+        boolean updated = admin.editClientData(userID, firstName, lastName, email);
+
+        if (updated) {
+            showSuccess("Account info updated successfully.");
+        } else {
+            showError("Account update failed.");
+        }
     }
 
     private void handleHome() {

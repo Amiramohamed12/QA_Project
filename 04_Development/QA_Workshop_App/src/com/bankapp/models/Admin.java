@@ -1,5 +1,7 @@
 package com.bankapp.models;
 
+import com.bankapp.enums.AccountType;
+
 /**
  * Admin model class extending AbstractUser.
  * An Admin can manage client accounts and perform fund transfers.
@@ -44,8 +46,8 @@ public class Admin extends AbstractUser {
      * @return true if deletion succeeds
      */
     public boolean deleteClientAccount(String accountNo) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Delete the account from the database later.
+        return true;
     }
 
     /**
@@ -53,7 +55,22 @@ public class Admin extends AbstractUser {
      * @return the Client or null
      */
     public Client viewClientDetails(String userID) {
-        // TODO: implement backend logic later
+        // TODO: Load client details from the database later.
+        Client client;
+
+        if ("12341".equals(userID)) {
+            client = new Client("12341", "Ahmed", "Hassan", "ahmed@example.com", "client123", "111111");
+            client.getAccounts().add(new BankAccount("12345", AccountType.SAVING, 2500, userID));
+            return client;
+        }
+
+        if ("12342".equals(userID)) {
+            client = new Client("12342", "Mona", "Kareem", "mona@example.com", "client123", "222222");
+            client.getAccounts().add(new BankAccount("12346", AccountType.CURRENT, 3000, userID));
+            client.getAccounts().add(new BankAccount("12347", AccountType.SAVING, 1500, userID));
+            return client;
+        }
+
         return null;
     }
 
@@ -63,8 +80,8 @@ public class Admin extends AbstractUser {
      */
     public boolean editClientData(String userID, String firstName,
                                   String lastName, String email) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Update client data in the database later.
+        return true;
     }
 
     /**
@@ -72,8 +89,8 @@ public class Admin extends AbstractUser {
      * @return true if transfer succeeds
      */
     public boolean fundTransfer(String fromAcc, String toAcc, double amount) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Transfer funds between accounts in the database later.
+        return true;
     }
 
     /**

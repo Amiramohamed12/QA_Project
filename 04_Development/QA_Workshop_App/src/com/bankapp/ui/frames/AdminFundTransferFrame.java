@@ -1,5 +1,7 @@
 package com.bankapp.ui.frames;
 
+import com.bankapp.models.Admin;
+import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -53,7 +55,7 @@ public class AdminFundTransferFrame extends BaseFrame {
 
         JButton submitButton = createButton("Submit");
         submitButton.setBounds(360, 410, 150, 60);
-        submitButton.addActionListener(e -> handleSubmit());
+        submitButton.addActionListener(e -> handleFundTransfer());
 
         pagePanel.add(homeButton);
         pagePanel.add(titleLabel);
@@ -70,16 +72,65 @@ public class AdminFundTransferFrame extends BaseFrame {
         setContentPane(rootPanel);
     }
 
-    private void handleSubmit() {
-        if (toAccountField.getText().trim().isEmpty()
-                || fromAccountField.getText().trim().isEmpty()
-                || amountField.getText().trim().isEmpty()) {
+    private void handleFundTransfer() {
+        String toAcc = toAccountField.getText().trim();
+        String fromAcc = fromAccountField.getText().trim();
+        String amountText = amountField.getText().trim();
+
+        if (toAcc.isEmpty() || fromAcc.isEmpty() || amountText.isEmpty()) {
             showError("Please fill in all transfer fields.");
             return;
         }
 
-        // TODO: implement real admin fund transfer logic.
-        showSuccess("Fund transfer request submitted.");
+        if (fromAcc.equals(toAcc)) {
+            showError("From account and to account cannot be the same.");
+            return;
+        }
+
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateAccountNo(fromAcc)) {
+            showError("Invalid from account number.");
+            return;
+        }
+
+        if (!validationService.validateAccountNo(toAcc)) {
+            showError("Invalid to account number.");
+            return;
+        }
+
+        if (!validationService.isAccountExists(fromAcc)) {
+            showError("From account does not exist.");
+            return;
+        }
+
+        if (!validationService.isAccountExists(toAcc)) {
+            showError("To account does not exist.");
+            return;
+        }
+
+        double amount;
+
+        try {
+            amount = Double.parseDouble(amountText);
+        } catch (NumberFormatException e) {
+            showError("Invalid amount.");
+            return;
+        }
+
+        if (!validationService.validateAmount(amount)) {
+            showError("Invalid amount.");
+            return;
+        }
+
+        Admin admin = new Admin();
+        boolean transferred = admin.fundTransfer(fromAcc, toAcc, amount);
+
+        if (transferred) {
+            showSuccess("Fund transfer completed successfully.");
+        } else {
+            showError("Fund transfer failed.");
+        }
     }
 
     private void handleHome() {

@@ -1,6 +1,9 @@
 package com.bankapp.ui.frames;
 
 import com.bankapp.enums.AccountType;
+import com.bankapp.models.BankAccount;
+import com.bankapp.models.Client;
+import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
 import javax.swing.*;
@@ -9,6 +12,8 @@ import javax.swing.*;
  * Client new account page.
  */
 public class UserNewAccountFrame extends BaseFrame {
+
+    private static final int CURRENT_ACCOUNT_COUNT = 0;
 
     private JComboBox<String> accountTypeCombo;
 
@@ -44,7 +49,7 @@ public class UserNewAccountFrame extends BaseFrame {
 
         JButton submitButton = createButton("Submit");
         submitButton.setBounds(330, 360, 150, 60);
-        submitButton.addActionListener(e -> handleSubmit());
+        submitButton.addActionListener(e -> handleCreateAccount());
 
         pagePanel.add(homeButton);
         pagePanel.add(titleLabel);
@@ -57,16 +62,30 @@ public class UserNewAccountFrame extends BaseFrame {
         setContentPane(rootPanel);
     }
 
-    private void handleSubmit() {
+    private void handleCreateAccount() {
         String selectedType = (String) accountTypeCombo.getSelectedItem();
 
-        if (selectedType == null || selectedType.isBlank()) {
+        ValidationService validationService = new ValidationService();
+
+        if (selectedType == null || !validationService.validateAccountType(selectedType)) {
             showError("Please choose an account type.");
             return;
         }
 
-        // TODO: implement real new account logic.
-        showSuccess(selectedType + " account request submitted.");
+        if (!validationService.validateAccountLimit(CURRENT_ACCOUNT_COUNT)) {
+            showError("Account limit reached.");
+            return;
+        }
+
+        Client client = new Client();
+        BankAccount account = client.createAccount(AccountType.valueOf(selectedType));
+
+        if (account == null) {
+            showError("Account creation failed.");
+            return;
+        }
+
+        showSuccess(account.getAccountType().name() + " account created successfully.");
     }
 
     private void handleHome() {

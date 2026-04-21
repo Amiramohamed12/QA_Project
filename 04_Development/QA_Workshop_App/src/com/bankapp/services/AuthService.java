@@ -1,44 +1,52 @@
 package com.bankapp.services;
 
-/**
- * Service skeleton for authentication operations.
- * All methods are TODO placeholders only.
- */
 public class AuthService {
 
-    /**
-     * Authenticates a user by email and password.
-     * @return role string ("admin", "client") or null if failed
-     */
+    private static final String ADMIN_EMAIL = "admin@bank.com";
+    private static final String ADMIN_PASSWORD = "admin123";
+    private static final String CLIENT_EMAIL = "client@bank.com";
+    private static final String CLIENT_PASSWORD = "client123";
+
+    private final ValidationService validationService = new ValidationService();
+
     public String authenticate(String email, String password) {
-        // TODO: implement backend logic later
-        return null;
+        SessionManager.clearSession();
+
+        if (!validationService.validateEmail(email) || !validationService.validatePassword(password)) {
+            return "INVALID";
+        }
+
+        // TODO: replace hardcoded credentials with database lookup.
+        // Pseudo logic:
+        // 1. Query user by email.
+        // 2. If user not found, return "INVALID".
+        // 3. Compare entered password with stored password.
+        // 4. If password matches, return stored role ("ADMIN" or "CLIENT").
+        // 5. Otherwise return "INVALID".
+        if (email.equals(ADMIN_EMAIL) && password.equals(ADMIN_PASSWORD)) {
+            SessionManager.setCurrentUserId("00001");
+            SessionManager.setCurrentRole("ADMIN");
+            return "ADMIN";
+        }
+
+        if (email.equals(CLIENT_EMAIL) && password.equals(CLIENT_PASSWORD)) {
+            SessionManager.setCurrentUserId("12341");
+            SessionManager.setCurrentRole("CLIENT");
+            return "CLIENT";
+        }
+
+        return "INVALID";
     }
 
-    /**
-     * Validates the email format.
-     * @return true if email is valid
-     */
-    private boolean validateEmail(String email) {
-        // TODO: implement backend logic later
-        return false;
-    }
-
-    /**
-     * Validates the password format.
-     * @return true if password is valid
-     */
-    private boolean validatePassword(String password) {
-        // TODO: implement backend logic later
-        return false;
-    }
-
-    /**
-     * Determines where to redirect after login based on role.
-     * @return screen/page name to redirect to
-     */
     public String redirectAfterLogin(String role) {
-        // TODO: implement backend logic later
-        return "";
+        if ("ADMIN".equals(role)) {
+            return "AdminHomeFrame";
+        }
+
+        if ("CLIENT".equals(role)) {
+            return "UserHomeFrame";
+        }
+
+        return "LoginFrame";
     }
 }

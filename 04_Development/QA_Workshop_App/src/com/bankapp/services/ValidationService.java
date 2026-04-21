@@ -1,97 +1,79 @@
 package com.bankapp.services;
 
-/**
- * Service skeleton for validation operations.
- * All methods are TODO placeholders only.
- */
 public class ValidationService {
 
-    private double minAmount = 1000;
-    private double maxAmount = 5000;
-    private int accountNoLength = 5;
-    private int userIDLength = 5;
-    private int maxAccounts = 3;
-    private int maxPasswordLength = 30;
-    private int minPasswordLength = 5;
+    public static final double MIN_AMOUNT = 1000;
+    public static final double MAX_AMOUNT = 5000;
+    public static final int ACCOUNT_NO_LENGTH = 5;
+    public static final int USER_ID_LENGTH = 5;
+    public static final int MAX_ACCOUNTS = 2;
+    public static final int MIN_PASSWORD_LENGTH = 5;
+    public static final int MAX_PASSWORD_LENGTH = 30;
+    public static final int MIN_NAME_LENGTH = 5;
+    public static final int MAX_NAME_LENGTH = 30;
 
-    /**
-     * Validates a user ID format (5 digits).
-     * @return true if valid
-     */
     public boolean validateUserID(String userID) {
-        // TODO: implement backend logic later
-        return false;
+        return userID != null && userID.matches("\\d{" + USER_ID_LENGTH + "}");
     }
 
-    /**
-     * Validates an account number format (5 digits).
-     * @return true if valid
-     */
     public boolean validateAccountNo(String accountNo) {
-        // TODO: implement backend logic later
-        return false;
+        return accountNo != null && accountNo.matches("\\d{" + ACCOUNT_NO_LENGTH + "}");
     }
 
-    /**
-     * Validates a transaction amount (1000..5000).
-     * @return true if valid
-     */
     public boolean validateAmount(double amount) {
-        // TODO: implement backend logic later
-        return false;
+        return amount >= MIN_AMOUNT && amount <= MAX_AMOUNT;
     }
 
-    /**
-     * Validates whether the account limit is reached.
-     * @return true if under limit
-     */
     public boolean validateAccountLimit(int count) {
-        // TODO: implement backend logic later
-        return false;
+        return count < MAX_ACCOUNTS;
     }
 
-    /**
-     * Validates the account type string.
-     * @return true if valid
-     */
     public boolean validateAccountType(String type) {
-        // TODO: implement backend logic later
-        return false;
+        if (type == null) {
+            return false;
+        }
+
+        return type.equalsIgnoreCase("SAVING") || type.equalsIgnoreCase("CURRENT");
     }
 
-    /**
-     * Validates the SSN format (numeric).
-     * @return true if valid
-     */
     public boolean validateSSN(String ssn) {
-        // TODO: implement backend logic later
-        return false;
+        return ssn != null && !ssn.isEmpty() && ssn.matches("\\d+");
     }
 
-    /**
-     * Validates a name (5..30, alpha only).
-     * @return true if valid
-     */
     public boolean validateName(String name) {
-        // TODO: implement backend logic later
-        return false;
+        if (name == null) {
+            return false;
+        }
+
+        return name.length() >= MIN_NAME_LENGTH
+                && name.length() <= MAX_NAME_LENGTH
+                && name.matches("[A-Za-z]+");
     }
 
-    /**
-     * Checks if a user ID already exists.
-     * @return true if exists
-     */
+    public boolean validateEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+
+        return email.contains("@") && email.contains(".") && !email.contains(" ");
+    }
+
+    public boolean validatePassword(String password) {
+        if (password == null) {
+            return false;
+        }
+
+        return password.length() >= MIN_PASSWORD_LENGTH
+                && password.length() <= MAX_PASSWORD_LENGTH;
+    }
+
     public boolean isUserIDExists(String userID) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Replace this temporary check with a database lookup later.
+        return "12341".equals(userID) || "12342".equals(userID);
     }
 
-    /**
-     * Checks if an account already exists.
-     * @return true if exists
-     */
     public boolean isAccountExists(String accountNo) {
-        // TODO: implement backend logic later
-        return false;
+        // TODO: Replace this temporary check with a database lookup later.
+        return "12345".equals(accountNo) || "54321".equals(accountNo);
     }
 }
