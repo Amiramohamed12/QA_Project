@@ -63,22 +63,23 @@ public class LoginFrame extends BaseFrame {
 
         AuthService authService = new AuthService();
         String role = authService.authenticate(email, password);
-
+        System.out.print(role);
         openNextFrame(role);
+        
     }
 
     private void openNextFrame(String role) {
-        if ("ADMIN".equals(role)) {
+        if ("admin".equals(role)) {
             openFrame(new AdminHomeFrame());
             return;
         }
 
-        if ("CLIENT".equals(role)) {
+        if ("client".equals(role)) {
             openFrame(new UserHomeFrame());
             return;
         }
 
-        showError("Invalid email or password.");
+        showError("Please enter valid data");
     }
 
     private void handleCreateAccount() {

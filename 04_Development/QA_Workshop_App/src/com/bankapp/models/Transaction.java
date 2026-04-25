@@ -1,6 +1,12 @@
 package com.bankapp.models;
 
 import com.bankapp.enums.TransactionType;
+import database.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -9,12 +15,12 @@ import java.util.Date;
  */
 public class Transaction {
 
-    private String transactionID;
-    private double amount;          // 1000..5000
-    private Date date;
+    private String          transactionID;
+    private double          amount;
+    private Date            date;
     private TransactionType type;
-    private String fromAccountNo;   // 5 digits
-    private String toAccountNo;     // 5 digits, nullable
+    private String          fromAccountNo;
+    private String          toAccountNo;
 
     public Transaction() {
     }
@@ -22,62 +28,32 @@ public class Transaction {
     public Transaction(String transactionID, double amount, Date date,
                        TransactionType type, String fromAccountNo, String toAccountNo) {
         this.transactionID = transactionID;
-        this.amount = amount;
-        this.date = date;
-        this.type = type;
+        this.amount        = amount;
+        this.date          = date;
+        this.type          = type;
         this.fromAccountNo = fromAccountNo;
-        this.toAccountNo = toAccountNo;
+        this.toAccountNo   = toAccountNo;
     }
 
     // --- Getters and Setters ---
 
-    public String getTransactionID() {
-        return transactionID;
-    }
+    public String getTransactionID() { return transactionID; }
+    public void setTransactionID(String transactionID) { this.transactionID = transactionID; }
 
-    public void setTransactionID(String transactionID) {
-        this.transactionID = transactionID;
-    }
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
 
-    public double getAmount() {
-        return amount;
-    }
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+    public TransactionType getType() { return type; }
+    public void setType(TransactionType type) { this.type = type; }
 
-    public Date getDate() {
-        return date;
-    }
+    public String getFromAccountNo() { return fromAccountNo; }
+    public void setFromAccountNo(String fromAccountNo) { this.fromAccountNo = fromAccountNo; }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public String getFromAccountNo() {
-        return fromAccountNo;
-    }
-
-    public void setFromAccountNo(String fromAccountNo) {
-        this.fromAccountNo = fromAccountNo;
-    }
-
-    public String getToAccountNo() {
-        return toAccountNo;
-    }
-
-    public void setToAccountNo(String toAccountNo) {
-        this.toAccountNo = toAccountNo;
-    }
+    public String getToAccountNo() { return toAccountNo; }
+    public void setToAccountNo(String toAccountNo) { this.toAccountNo = toAccountNo; }
 
     // --- Methods ---
 
@@ -86,7 +62,51 @@ public class Transaction {
      * @return true if transaction succeeds
      */
     public boolean doTransaction() {
-        // TODO: implement backend logic later
+        String insertSql = "INSERT INTO transactions (amount, type, from_account_no, to_account_no) VALUES (?, ?, ?, ?)";
+        String debitSql  = "UPDATE accounts SET balance = balance - ? WHERE account_no = ?";
+        String creditSql = "UPDATE accounts SET balance = balance + ? WHERE account_no = ?";
+
+        try (Connection conn = DBConnection.connect()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement insertPs = conn.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+                 PreparedStatement debitPs  = conn.prepareStatement(debitSql);
+                 PreparedStatement creditPs = conn.prepareStatement(creditSql)) {
+
+                insertPs.setDouble(1, amount);
+                insertPs.setString(2, type.name());
+                insertPs.setString(3, fromAccountNo);
+                insertPs.setString(4, toAccountNo);
+                insertPs.executeUpdate();
+
+                try (ResultSet rs = insertPs.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        this.transactionID = String.valueOf(rs.getLong(1));
+                    }
+                }
+
+                debitPs.setDouble(1, amount);
+                debitPs.setString(2, fromAccountNo);
+                debitPs.executeUpdate();
+
+                if (toAccountNo != null && !toAccountNo.isEmpty()) {
+                    creditPs.setDouble(1, amount);
+                    creditPs.setString(2, toAccountNo);
+                    creditPs.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -95,8 +115,7 @@ public class Transaction {
      * @return true if amount is valid (1000..5000)
      */
     private boolean validateAmount(double amount) {
-        // TODO: implement backend logic later
-        return false;
+        return amount >= 1000 && amount <= 5000;
     }
 
     /**
@@ -104,8 +123,7 @@ public class Transaction {
      * @return true if valid
      */
     private boolean validateAccountNo(String accountNo) {
-        // TODO: implement backend logic later
-        return false;
+        return accountNo != null && accountNo.matches("\\d{5}");
     }
 
     /**
@@ -113,7 +131,6 @@ public class Transaction {
      * @return transaction details
      */
     public String getTransactionDetails() {
-        // TODO: implement backend logic later
-        return "";
+        return transactionID + "," + type + "," + amount + "," + fromAccountNo + "," + toAccountNo;
     }
 }

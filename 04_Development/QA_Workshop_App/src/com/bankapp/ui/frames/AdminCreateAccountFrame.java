@@ -45,8 +45,8 @@ public class AdminCreateAccountFrame extends BaseFrame {
         accountTypeLabel.setBounds(55, 245, 160, 35);
 
         String[] accountTypes = {
-                AccountType.SAVING.name(),
-                AccountType.CURRENT.name()
+                AccountType.saving.name(),
+                AccountType.current.name()
         };
         accountTypeCombo = createComboBox(accountTypes);
         accountTypeCombo.setBounds(210, 240, 170, 45);

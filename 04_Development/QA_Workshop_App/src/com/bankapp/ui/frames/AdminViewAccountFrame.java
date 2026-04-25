@@ -91,10 +91,10 @@ public class AdminViewAccountFrame extends BaseFrame {
         Admin admin = new Admin();
         Client client = admin.viewClientDetails(userID);
 
-        if (client == null) {
+      /*  if (client == null) {
             showError("Client details not found.");
             return;
-        }
+        }*/
 
         showClientDetails(client);
     }

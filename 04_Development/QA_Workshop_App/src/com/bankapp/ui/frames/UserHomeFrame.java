@@ -60,7 +60,10 @@ public class UserHomeFrame extends BaseFrame {
 
     private void handleViewAccountInfo() {
         // TODO: load account summary before opening this page.
+        SessionManager s=new SessionManager();
+        System.out.println(s.getCurrentUserId());
         openFrame(new UserViewAccountInfoFrame());
+        
     }
 
     private void handleLogout() {

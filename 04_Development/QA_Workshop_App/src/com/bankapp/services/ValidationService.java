@@ -1,16 +1,23 @@
 package com.bankapp.services;
 
+import database.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class ValidationService {
 
-    public static final double MIN_AMOUNT = 1000;
-    public static final double MAX_AMOUNT = 5000;
-    public static final int ACCOUNT_NO_LENGTH = 5;
-    public static final int USER_ID_LENGTH = 5;
-    public static final int MAX_ACCOUNTS = 2;
-    public static final int MIN_PASSWORD_LENGTH = 5;
-    public static final int MAX_PASSWORD_LENGTH = 30;
-    public static final int MIN_NAME_LENGTH = 5;
-    public static final int MAX_NAME_LENGTH = 30;
+    public static final double MIN_AMOUNT         = 1000;
+    public static final double MAX_AMOUNT         = 5000;
+    public static final int    ACCOUNT_NO_LENGTH  = 5;
+    public static final int    USER_ID_LENGTH     = 1;
+    public static final int    MAX_ACCOUNTS       = 3;
+    public static final int    MIN_PASSWORD_LENGTH = 5;
+    public static final int    MAX_PASSWORD_LENGTH = 30;
+    public static final int    MIN_NAME_LENGTH    = 5;
+    public static final int    MAX_NAME_LENGTH    = 30;
 
     public boolean validateUserID(String userID) {
         return userID != null && userID.matches("\\d{" + USER_ID_LENGTH + "}");
@@ -63,17 +70,70 @@ public class ValidationService {
             return false;
         }
 
+        if (!meetsPasswordConstraints(password)) {
+            return false;
+        }
+
         return password.length() >= MIN_PASSWORD_LENGTH
                 && password.length() <= MAX_PASSWORD_LENGTH;
     }
 
     public boolean isUserIDExists(String userID) {
-        // TODO: Replace this temporary check with a database lookup later.
-        return "12341".equals(userID) || "12342".equals(userID);
+        String sql = "SELECT 1 FROM users WHERE user_id = ?";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, userID);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public boolean isAccountExists(String accountNo) {
-        // TODO: Replace this temporary check with a database lookup later.
-        return "12345".equals(accountNo) || "54321".equals(accountNo);
+        String sql = "SELECT 1 FROM accounts WHERE account_number = ?";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, accountNo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private boolean meetsPasswordConstraints(String password) {
+        boolean hasUpperCase = false;
+        boolean hasDigit     = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            }
+
+            if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+
+            if (hasUpperCase && hasDigit) {
+                return true;
+            }
+        }
+
+        return hasUpperCase && hasDigit;
     }
 }

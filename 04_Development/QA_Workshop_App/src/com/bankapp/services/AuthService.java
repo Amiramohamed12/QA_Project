@@ -1,11 +1,13 @@
 package com.bankapp.services;
 
-public class AuthService {
+import database.DBConnection;
 
-    private static final String ADMIN_EMAIL = "admin@bank.com";
-    private static final String ADMIN_PASSWORD = "admin123";
-    private static final String CLIENT_EMAIL = "client@bank.com";
-    private static final String CLIENT_PASSWORD = "client123";
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class AuthService {
 
     private final ValidationService validationService = new ValidationService();
 
@@ -16,23 +18,27 @@ public class AuthService {
             return "INVALID";
         }
 
-        // TODO: replace hardcoded credentials with database lookup.
-        // Pseudo logic:
-        // 1. Query user by email.
-        // 2. If user not found, return "INVALID".
-        // 3. Compare entered password with stored password.
-        // 4. If password matches, return stored role ("ADMIN" or "CLIENT").
-        // 5. Otherwise return "INVALID".
-        if (email.equals(ADMIN_EMAIL) && password.equals(ADMIN_PASSWORD)) {
-            SessionManager.setCurrentUserId("00001");
-            SessionManager.setCurrentRole("ADMIN");
-            return "ADMIN";
-        }
+        String sql = "SELECT user_id, role FROM users WHERE email = ? AND password = ?";
 
-        if (email.equals(CLIENT_EMAIL) && password.equals(CLIENT_PASSWORD)) {
-            SessionManager.setCurrentUserId("12341");
-            SessionManager.setCurrentRole("CLIENT");
-            return "CLIENT";
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String userID = rs.getString("user_id");
+                    String role   = rs.getString("role");
+
+                    SessionManager.setCurrentUserId(userID);
+                    SessionManager.setCurrentRole(role);
+                    return role;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return "INVALID";

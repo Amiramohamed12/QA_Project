@@ -41,8 +41,8 @@ public class UserNewAccountFrame extends BaseFrame {
         accountTypeLabel.setBounds(45, 125, 180, 35);
 
         String[] accountTypes = {
-                AccountType.SAVING.name(),
-                AccountType.CURRENT.name()
+                AccountType.saving.name(),
+                AccountType.current.name()
         };
         accountTypeCombo = createComboBox(accountTypes);
         accountTypeCombo.setBounds(45, 165, 230, 45);
@@ -64,7 +64,7 @@ public class UserNewAccountFrame extends BaseFrame {
 
     private void handleCreateAccount() {
         String selectedType = (String) accountTypeCombo.getSelectedItem();
-
+        System.out.print(selectedType);
         ValidationService validationService = new ValidationService();
 
         if (selectedType == null || !validationService.validateAccountType(selectedType)) {
@@ -85,7 +85,7 @@ public class UserNewAccountFrame extends BaseFrame {
             return;
         }
 
-        showSuccess(account.getAccountType().name() + " account created successfully.");
+        showSuccess(account.getAccountType().name() + "Account created successfully with account number "+account.getAccountNo());
     }
 
     private void handleHome() {

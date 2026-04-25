@@ -1,16 +1,23 @@
 package com.bankapp.models;
 
 import com.bankapp.enums.AccountType;
+import com.bankapp.services.SessionManager;
+import database.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Client model class extending AbstractUser.
- * A Client can own up to 2 BankAccounts.
+ * A Client can own up to 3 BankAccounts.
  */
 public class Client extends AbstractUser {
 
-    private List<BankAccount> accounts; // max = 2
+    private List<BankAccount> accounts;
 
     public Client() {
         super();
@@ -41,7 +48,23 @@ public class Client extends AbstractUser {
      */
     public boolean register(String firstName, String lastName,
                             String email, String ssn, String password) {
-        // TODO: implement backend logic later
+        String sql = "INSERT INTO users (first_name, last_name, email, ssn, password, role) VALUES (?, ?, ?, ?, ?, 'client')";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setString(3, email);
+            ps.setString(4, ssn);
+            ps.setString(5, password);
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -50,25 +73,57 @@ public class Client extends AbstractUser {
      * @return the created BankAccount or null
      */
     public BankAccount createAccount(AccountType type) {
-        // TODO: Save the new account in the database later.
-        BankAccount account = new BankAccount("12345", type, 0.0, getUserID());
-        accounts.add(account);
-        return account;
+        String generateSql = "SELECT COALESCE(MAX(CAST(account_number AS INTEGER)), 10000) + 1 FROM accounts";
+        String insertSql   = "INSERT INTO accounts (account_number, user_id, account_type, balance) VALUES (?, ?, ?, 0)";
+
+        try (Connection conn = DBConnection.connect()) {
+
+            String newAccountNo;
+
+            try (PreparedStatement genPs = conn.prepareStatement(generateSql);
+                 ResultSet rs = genPs.executeQuery()) {
+                newAccountNo = String.valueOf(rs.getInt(1));
+            }
+
+            try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
+                insertPs.setString(1, newAccountNo);
+                insertPs.setInt(2, Integer.parseInt(SessionManager.getCurrentUserId()));
+                insertPs.setString(3, type.name().toLowerCase());
+                insertPs.executeUpdate();
+            }
+
+            BankAccount account = new BankAccount(newAccountNo, type, 0.0, getUserID());
+            accounts.add(account);
+            return account;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
      * Views account info for the given user ID.
-     * @return list of account info
+     * @return list of account info strings in "accountNo,balance" format
      */
     public List<String> viewAccountInfo(String userID) {
-        // TODO: Load account info from the database later.
+        String sql = "SELECT account_number, balance FROM accounts WHERE user_id = ?";
         List<String> accountInfo = new ArrayList<>();
 
-        if ("12341".equals(userID)) {
-            accountInfo.add("12345,2500.0");
-            accountInfo.add("12346,3200.0");
-        } else if ("12342".equals(userID)) {
-            accountInfo.add("12347,1500.0");
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, Integer.parseInt(userID));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    accountInfo.add(rs.getString("account_number") + "," + rs.getDouble("balance"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return accountInfo;
@@ -76,19 +131,31 @@ public class Client extends AbstractUser {
 
     /**
      * Views transaction history for the given account number.
-     * @return list of transactions
+     * @return list of transactions in "date,type,amount" format
      */
     public List<String> viewTransactionHistory(String accountNo) {
-        // TODO: Load transaction history from the database later.
+        String sql = "SELECT t.created_at, t.transaction_type, t.amount " +
+                     "FROM transactions t " +
+                     "JOIN accounts a ON (a.account_id = t.from_account_id OR a.account_id = t.to_account_id) " +
+                     "WHERE a.account_number = ? " +
+                     "ORDER BY t.created_at DESC LIMIT 5";
         List<String> history = new ArrayList<>();
 
-        if ("12345".equals(accountNo)) {
-            history.add("21/4,DEPOSIT,1500.0");
-            history.add("20/4,WITHDRAW,1000.0");
-            history.add("19/4,FUND_TRANSFER,2000.0");
-        } else if ("54321".equals(accountNo)) {
-            history.add("21/4,DEPOSIT,3000.0");
-            history.add("18/4,WITHDRAW,1200.0");
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, accountNo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    history.add(rs.getString("created_at") + "," +
+                                rs.getString("transaction_type") + "," +
+                                rs.getDouble("amount"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return history;
@@ -99,8 +166,48 @@ public class Client extends AbstractUser {
      * @return true if deposit succeeds
      */
     public boolean deposit(String accountNo, double amount) {
-        // TODO: Deposit amount into the account in the database later.
-        return true;
+        String accountIdSql = "SELECT account_id FROM accounts WHERE account_number = ?";
+        String updateSql    = "UPDATE accounts SET balance = balance + ? WHERE account_number = ?";
+        String insertSql    = "INSERT INTO transactions (from_account_id, transaction_type, amount, performed_by) VALUES (?, 'deposit', ?, ?)";
+
+        try (Connection conn = DBConnection.connect()) {
+            conn.setAutoCommit(false);
+
+            try {
+                int accountId;
+                try (PreparedStatement idPs = conn.prepareStatement(accountIdSql)) {
+                    idPs.setString(1, accountNo);
+                    try (ResultSet rs = idPs.executeQuery()) {
+                        accountId = rs.getInt("account_id");
+                    }
+                }
+
+                try (PreparedStatement updatePs = conn.prepareStatement(updateSql)) {
+                    updatePs.setDouble(1, amount);
+                    updatePs.setString(2, accountNo);
+                    updatePs.executeUpdate();
+                }
+
+                try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
+                    insertPs.setInt(1, accountId);
+                    insertPs.setDouble(2, amount);
+                    insertPs.setInt(3, Integer.parseInt(SessionManager.getCurrentUserId()));
+                    insertPs.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     /**
@@ -108,8 +215,48 @@ public class Client extends AbstractUser {
      * @return true if withdrawal succeeds
      */
     public boolean withdraw(String accountNo, double amount) {
-        // TODO: Withdraw amount from the account in the database later.
-        return true;
+        String accountIdSql = "SELECT account_id FROM accounts WHERE account_number = ?";
+        String updateSql    = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
+        String insertSql    = "INSERT INTO transactions (from_account_id, transaction_type, amount, performed_by) VALUES (?, 'withdraw', ?, ?)";
+
+        try (Connection conn = DBConnection.connect()) {
+            conn.setAutoCommit(false);
+
+            try {
+                int accountId;
+                try (PreparedStatement idPs = conn.prepareStatement(accountIdSql)) {
+                    idPs.setString(1, accountNo);
+                    try (ResultSet rs = idPs.executeQuery()) {
+                        accountId = rs.getInt("account_id");
+                    }
+                }
+
+                try (PreparedStatement updatePs = conn.prepareStatement(updateSql)) {
+                    updatePs.setDouble(1, amount);
+                    updatePs.setString(2, accountNo);
+                    updatePs.executeUpdate();
+                }
+
+                try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
+                    insertPs.setInt(1, accountId);
+                    insertPs.setDouble(2, amount);
+                    insertPs.setInt(3, Integer.parseInt(SessionManager.getCurrentUserId()));
+                    insertPs.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     /**
@@ -117,8 +264,64 @@ public class Client extends AbstractUser {
      * @return true if transfer succeeds
      */
     public boolean fundTransfer(String fromAcc, String toAcc, double amount) {
-        // TODO: Transfer funds between accounts in the database later.
-        return true;
+        String accountIdSql = "SELECT account_id FROM accounts WHERE account_number = ?";
+        String debitSql     = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
+        String creditSql    = "UPDATE accounts SET balance = balance + ? WHERE account_number = ?";
+        String insertSql    = "INSERT INTO transactions (from_account_id, to_account_id, transaction_type, amount, performed_by) VALUES (?, ?, 'transfer', ?, ?)";
+
+        try (Connection conn = DBConnection.connect()) {
+            conn.setAutoCommit(false);
+
+            try {
+                int fromId;
+                try (PreparedStatement idPs = conn.prepareStatement(accountIdSql)) {
+                    idPs.setString(1, fromAcc);
+                    try (ResultSet rs = idPs.executeQuery()) {
+                        fromId = rs.getInt("account_id");
+                    }
+                }
+
+                int toId;
+                try (PreparedStatement idPs = conn.prepareStatement(accountIdSql)) {
+                    idPs.setString(1, toAcc);
+                    try (ResultSet rs = idPs.executeQuery()) {
+                        toId = rs.getInt("account_id");
+                    }
+                }
+
+                try (PreparedStatement debitPs = conn.prepareStatement(debitSql)) {
+                    debitPs.setDouble(1, amount);
+                    debitPs.setString(2, fromAcc);
+                    debitPs.executeUpdate();
+                }
+
+                try (PreparedStatement creditPs = conn.prepareStatement(creditSql)) {
+                    creditPs.setDouble(1, amount);
+                    creditPs.setString(2, toAcc);
+                    creditPs.executeUpdate();
+                }
+
+                try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
+                    insertPs.setInt(1, fromId);
+                    insertPs.setInt(2, toId);
+                    insertPs.setDouble(3, amount);
+                    insertPs.setInt(4, Integer.parseInt(SessionManager.getCurrentUserId()));
+                    insertPs.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     /**
@@ -126,7 +329,23 @@ public class Client extends AbstractUser {
      * @return true if user can create more accounts
      */
     public boolean validateMaxAccounts(String userId) {
-        // TODO: implement backend logic later
+        String sql = "SELECT COUNT(*) FROM accounts WHERE user_id = ?";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, Integer.parseInt(userId));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) < 3;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 }
