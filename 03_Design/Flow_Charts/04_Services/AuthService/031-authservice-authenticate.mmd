@@ -1,0 +1,18 @@
+flowchart TD
+    A[Start] --> B[Clear session]
+    B --> C{Email and password pass validation?}
+    C -- No --> D[Return INVALID]
+    C -- Yes --> E[Prepare user lookup by email and password]
+    E --> F[Open DB connection]
+    F --> G[Bind email and password]
+    G --> H[Execute query]
+    H --> I{Matching user found?}
+    I -- Yes --> J[Read user_id and role]
+    J --> K[Store user_id in session]
+    K --> L[Store role in session]
+    L --> M[Return role]
+    I -- No --> D
+    F --> N[On SQL error print stack trace]
+    N --> D
+    D --> O[End]
+    M --> O

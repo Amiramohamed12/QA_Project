@@ -1,0 +1,18 @@
+flowchart TD
+    A[Start] --> B[Prepare account lookup, balance update, transaction insert]
+    B --> C[Open DB connection]
+    C --> D[Disable auto-commit]
+    D --> E[Find account_id]
+    E --> F[Decrease account balance]
+    F --> G[Insert withdraw transaction]
+    G --> H[Commit]
+    H --> I[Return true]
+    E --> J[On SQL error rollback]
+    F --> J
+    G --> J
+    J --> K[Print stack trace]
+    K --> L[Return false]
+    C --> M[Outer SQL error]
+    M --> K
+    I --> N[End]
+    L --> N

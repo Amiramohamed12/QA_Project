@@ -1,0 +1,23 @@
+flowchart TD
+    A[Start] --> B[Read account number]
+    B --> C{Empty?}
+    C -- Yes --> D[Show error]
+    C -- No --> E[Create ValidationService]
+    E --> F{Format valid?}
+    F -- No --> G[Show invalid account]
+    F -- Yes --> H{Account exists?}
+    H -- No --> I[Show missing account]
+    H -- Yes --> J[Call Client.viewTransactionHistory]
+    J --> K[Clear table model]
+    K --> L[Loop through returned transaction strings]
+    L --> M[Split string into date, type, amount]
+    M --> N{Split has 3 parts?}
+    N -- Yes --> O[Add row to table]
+    N -- No --> P[Skip row]
+    O --> Q{More transactions?}
+    P --> Q
+    Q -- Yes --> L
+    Q -- No --> R[End]
+    D --> R
+    G --> R
+    I --> R

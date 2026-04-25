@@ -1,0 +1,16 @@
+flowchart TD
+    A[Start] --> B[Read user ID]
+    B --> C{Empty?}
+    C -- Yes --> D[Show error]
+    C -- No --> E[Create ValidationService]
+    E --> F{User ID valid?}
+    F -- No --> G[Show invalid ID]
+    F -- Yes --> H{User exists?}
+    H -- No --> I[Show missing user]
+    H -- Yes --> J[Enable editable fields and save button]
+    J --> K[Load sample values into fields]
+    K --> L[Show sample loaded success]
+    D --> M[End]
+    G --> M
+    I --> M
+    L --> M

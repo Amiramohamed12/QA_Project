@@ -3,6 +3,14 @@
         "/^cd \"c:\\\\Users\\\\shady gamal\\\\OneDrive\\\\Desktop\\\\QA_Workshop\"; git add 04_Development/QA_Workshop_App/$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^cd \"c:\\\\Users\\\\shady gamal\\\\OneDrive\\\\Desktop\\\\QA_Workshop\" ; git pull$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd \"c:\\\\Users\\\\shady gamal\\\\OneDrive\\\\Desktop\\\\QA_Workshop\" ; git add 03_Design/Flow_Charts/flowcharts/ ; git commit -m \"Flow Chart Update\" ; git push$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }

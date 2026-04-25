@@ -1,0 +1,10 @@
+flowchart TD
+    A[Start] --> B{Name is null?}
+    B -- Yes --> C[Return false]
+    B -- No --> D{Length within min and max?}
+    D -- No --> C
+    D -- Yes --> E{Name contains only letters?}
+    E -- Yes --> F[Return true]
+    E -- No --> C
+    C --> G[End]
+    F --> G

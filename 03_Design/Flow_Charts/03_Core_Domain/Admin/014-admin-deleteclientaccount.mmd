@@ -1,0 +1,12 @@
+flowchart TD
+    A[Start] --> B[Prepare delete by account_number]
+    B --> C[Open DB connection]
+    C --> D[Bind account number]
+    D --> E[Execute delete]
+    E --> F{Rows deleted > 0?}
+    F -- Yes --> G[Return true]
+    F -- No --> H[Return false]
+    C --> I[On SQL error print stack trace]
+    I --> H
+    G --> J[End]
+    H --> J

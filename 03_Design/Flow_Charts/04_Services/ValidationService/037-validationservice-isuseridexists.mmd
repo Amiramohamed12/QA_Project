@@ -1,0 +1,12 @@
+flowchart TD
+    A[Start] --> B[Prepare select 1 from users by user_id]
+    B --> C[Open DB connection]
+    C --> D[Bind user ID]
+    D --> E[Execute query]
+    E --> F{Any row returned?}
+    F -- Yes --> G[Return true]
+    F -- No --> H[Return false]
+    C --> I[On SQL error print stack trace]
+    I --> H
+    G --> J[End]
+    H --> J

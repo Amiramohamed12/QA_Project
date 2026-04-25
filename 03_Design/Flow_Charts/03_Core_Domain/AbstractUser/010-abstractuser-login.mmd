@@ -1,0 +1,13 @@
+flowchart TD
+    A[Start] --> B[Build query by email and password]
+    B --> C[Open DB connection]
+    C --> D[Bind email and password]
+    D --> E[Execute query]
+    E --> F{User found?}
+    F -- Yes --> G[Store user_id in object]
+    G --> H[Return true]
+    F -- No --> I[Return false]
+    C --> J[On SQL error print stack trace]
+    J --> I
+    H --> K[End]
+    I --> K

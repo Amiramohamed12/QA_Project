@@ -1,0 +1,30 @@
+flowchart TD
+    A[Start] --> B[Read edited values]
+    B --> C[Create ValidationService]
+    C --> D{User ID valid?}
+    D -- No --> E[Show invalid user ID]
+    D -- Yes --> F{User exists?}
+    F -- No --> G[Show missing user]
+    F -- Yes --> H{All editable fields empty?}
+    H -- Yes --> I[Show no data updated]
+    H -- No --> J{Any editable field empty?}
+    J -- Yes --> K[Show fill all fields]
+    J -- No --> L{First name valid?}
+    L -- No --> M[Show invalid first name]
+    L -- Yes --> N{Last name valid?}
+    N -- No --> O[Show invalid last name]
+    N -- Yes --> P{Email valid?}
+    P -- No --> Q[Show invalid email]
+    P -- Yes --> R[Call Admin.editClientData]
+    R --> S{Updated?}
+    S -- Yes --> T[Show success]
+    S -- No --> U[Show failure]
+    E --> V[End]
+    G --> V
+    I --> V
+    K --> V
+    M --> V
+    O --> V
+    Q --> V
+    T --> V
+    U --> V

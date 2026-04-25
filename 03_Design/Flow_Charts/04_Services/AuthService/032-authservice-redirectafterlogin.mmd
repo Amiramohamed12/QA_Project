@@ -1,0 +1,9 @@
+flowchart TD
+    A[Start] --> B{Role equals ADMIN?}
+    B -- Yes --> C[Return AdminHomeFrame]
+    B -- No --> D{Role equals CLIENT?}
+    D -- Yes --> E[Return UserHomeFrame]
+    D -- No --> F[Return LoginFrame]
+    C --> G[End]
+    E --> G
+    F --> G

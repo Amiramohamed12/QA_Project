@@ -1,0 +1,8 @@
+flowchart TD
+    A[Start] --> B[Try parsing double]
+    B --> C{Parse succeeded?}
+    C -- Yes --> D[Return amount]
+    C -- No --> E[Show invalid amount]
+    E --> F[Return -1]
+    D --> G[End]
+    F --> G

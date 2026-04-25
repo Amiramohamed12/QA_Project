@@ -1,0 +1,17 @@
+flowchart TD
+    A[Start] --> B[Apply table fonts, row height, grid, selection rules]
+    B --> C[Read table header]
+    C --> D{Header exists?}
+    D -- Yes --> E[Apply header font]
+    D -- No --> F[Continue]
+    E --> F
+    F --> G{showHeader is false?}
+    G -- Yes --> H[Hide header]
+    G -- No --> I[Keep header]
+    H --> J[Create custom cell renderer]
+    I --> J
+    J --> K[Loop through columns]
+    K --> L[Assign renderer to column]
+    L --> M{More columns?}
+    M -- Yes --> K
+    M -- No --> N[End]

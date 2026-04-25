@@ -1,0 +1,8 @@
+flowchart TD
+    A[Start] --> B[Prepare balance update SQL]
+    B --> C[Open DB connection]
+    C --> D[Bind amount and account number]
+    D --> E[Execute update]
+    E --> F[End]
+    C --> G[On SQL error print stack trace]
+    G --> F

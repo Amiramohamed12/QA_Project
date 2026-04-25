@@ -1,0 +1,13 @@
+flowchart TD
+    A[Start] --> B[Prepare last-transaction query]
+    B --> C[Open DB connection]
+    C --> D[Bind account number twice]
+    D --> E[Execute query]
+    E --> F{Transaction found?}
+    F -- Yes --> G[Map row into Transaction object]
+    G --> H[Return transaction]
+    F -- No --> I[Return null]
+    C --> J[On SQL error print stack trace]
+    J --> I
+    H --> K[End]
+    I --> K

@@ -1,0 +1,18 @@
+flowchart TD
+    A[Start] --> B[Prepare debit, credit, and transaction SQL]
+    B --> C[Open DB connection]
+    C --> D[Disable auto-commit]
+    D --> E[Debit source account]
+    E --> F[Credit destination account]
+    F --> G[Insert transaction row]
+    G --> H[Commit transaction]
+    H --> I[Return true]
+    E --> J[On SQL error rollback]
+    F --> J
+    G --> J
+    J --> K[Print stack trace]
+    K --> L[Return false]
+    C --> M[Outer SQL error]
+    M --> K
+    I --> N[End]
+    L --> N

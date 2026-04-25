@@ -1,0 +1,18 @@
+flowchart TD
+    A[Start] --> B{Any field empty?}
+    B -- Yes --> C[Show invalid data error]
+    C --> D[Return false]
+    B -- No --> E[Create ValidationService]
+    E --> F{First name valid?}
+    F -- No --> C
+    F -- Yes --> G{Last name valid?}
+    G -- No --> C
+    G -- Yes --> H{Email valid?}
+    H -- No --> C
+    H -- Yes --> I{SSN valid?}
+    I -- No --> C
+    I -- Yes --> J{Password valid?}
+    J -- No --> C
+    J -- Yes --> K[Return true]
+    D --> L[End]
+    K --> L

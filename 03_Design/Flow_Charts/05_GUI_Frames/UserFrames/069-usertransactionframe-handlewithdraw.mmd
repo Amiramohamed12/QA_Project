@@ -1,0 +1,17 @@
+flowchart TD
+    A[Start] --> B[Read account number and amount]
+    B --> C{Any value empty?}
+    C -- Yes --> D[Show error]
+    C -- No --> E[Parse amount]
+    E --> F{Amount parse failed?}
+    F -- Yes --> G[Stop]
+    F -- No --> H{validateAccountAndAmount passes?}
+    H -- No --> G
+    H -- Yes --> I[Call Client.withdraw]
+    I --> J{Withdrawn?}
+    J -- Yes --> K[Show success]
+    J -- No --> L[Show failure]
+    D --> M[End]
+    G --> M
+    K --> M
+    L --> M
