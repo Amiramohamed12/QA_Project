@@ -1,270 +1,764 @@
 <mxfile host="app.diagrams.net">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="786" dy="460" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1563" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="2000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="User" parent="1" style="swimlane;startSize=45;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="ِِAbstract_User" vertex="1">
-          <mxGeometry height="280" width="280" x="620" as="geometry">
-            <mxRectangle height="45" width="120" x="620" as="alternateBounds" />
-          </mxGeometry>
+        <mxCell id="label-entry" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=16;align=left;spacingLeft=12;verticalAlign=middle;" value="Entry Points" vertex="1">
+          <mxGeometry height="34" width="520" x="40" y="30" as="geometry" />
         </mxCell>
-        <mxCell id="User-attrs" parent="User" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- userID : String {5 digits, auto-generated}&lt;br/&gt;- firstName : String {5..30, alpha only}&lt;br/&gt;- lastName : String {5..30, alpha only}&lt;br/&gt;- email : String {unique, valid format}&lt;br/&gt;- password : String {5..30, masked}&lt;br/&gt;- ssn : String {numeric, unique}" vertex="1">
-          <mxGeometry height="110" width="280" y="45" as="geometry" />
+        <mxCell id="label-database" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=16;align=left;spacingLeft=12;verticalAlign=middle;" value="Database Access" vertex="1">
+          <mxGeometry height="34" width="620" x="1580" y="30" as="geometry" />
         </mxCell>
-        <mxCell id="User-divider" parent="User" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
-          <mxGeometry height="10" width="280" y="155" as="geometry" />
+        <mxCell id="Main" parent="1" style="swimlane;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="Main" vertex="1">
+          <mxGeometry height="95" width="230" x="60" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="User-methods" parent="User" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ login(email: String, password: String) : Boolean&lt;br&gt;+ logout() : void&lt;br&gt;- validateCredentials() : Boolean" vertex="1">
-          <mxGeometry height="110" width="280" y="165" as="geometry" />
+        <mxCell id="Main-divider" parent="Main" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="230" y="35" as="geometry" />
         </mxCell>
-        <mxCell id="Client" parent="1" style="swimlane;startSize=35;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;" value="Client" vertex="1">
-          <mxGeometry height="270" width="300" x="40" y="530" as="geometry" />
+        <mxCell id="Main-methods" parent="Main" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ main(args: String[]) : void" vertex="1">
+          <mxGeometry height="50" width="230" y="45" as="geometry" />
         </mxCell>
-        <mxCell id="Client-attrs" parent="Client" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- accounts : List&lt;BankAccount&gt; {max=3}" vertex="1">
-          <mxGeometry height="30" width="300" y="35" as="geometry" />
+        <mxCell id="QAWorkshopApp" parent="1" style="swimlane;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="QA_Workshop_App" vertex="1">
+          <mxGeometry height="95" width="240" x="320" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="Client-divider" parent="Client" style="line;strokeColor=#9673a6;" value="" vertex="1">
-          <mxGeometry height="10" width="300" y="65" as="geometry" />
+        <mxCell id="QAWorkshopApp-divider" parent="QAWorkshopApp" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="240" y="35" as="geometry" />
         </mxCell>
-        <mxCell id="Client-methods" parent="Client" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ register(firstName, lastName, email, ssn, password) : Boolean&lt;br&gt;+ createAccount(type: AccountType) : BankAccount&lt;br&gt;+ viewAccountInfo(userID: String) : List&lt;br&gt;+ viewTransactionHistory(accountNo: String) : List&lt;br&gt;+ deposit(accountNo: String, amount: Double) : Boolean&lt;br&gt;+ withdraw(accountNo: String, amount: Double) : Boolean&lt;br&gt;+ fundTransfer(fromAcc: String, toAcc: String, amount: Double) : Boolean&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;validateMaxAccounts(userId): Boolean&lt;/span&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="190" width="300" y="75" as="geometry" />
-        </mxCell>
-        <mxCell id="Admin" parent="1" style="swimlane;startSize=35;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;" value="Admin" vertex="1">
-          <mxGeometry height="280" width="310" x="1360" y="585" as="geometry" />
-        </mxCell>
-        <mxCell id="Admin-attrs" parent="Admin" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- adminID : String" vertex="1">
-          <mxGeometry height="25" width="310" y="35" as="geometry" />
-        </mxCell>
-        <mxCell id="Admin-divider" parent="Admin" style="line;strokeColor=#9673a6;" value="" vertex="1">
-          <mxGeometry height="10" width="310" y="60" as="geometry" />
-        </mxCell>
-        <mxCell id="Admin-methods" parent="Admin" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ createClientAccount(userID: String) : Boolean&lt;br&gt;+ deleteClientAccount(accountNo: String) : Boolean&lt;br&gt;+ viewClientDetails(userID: String) : Client&lt;br&gt;+ editClientData(userID, firstName, lastName, email) : Boolean&lt;br&gt;+ fundTransfer(fromAcc: String, toAcc: String, amount: Double) : Boolean&lt;br&gt;- validateUserID(userID: String) : Boolean&lt;br&gt;- validateAccountNo(accountNo: String) : Boolean" vertex="1">
-          <mxGeometry height="205" width="310" y="70" as="geometry" />
-        </mxCell>
-        <mxCell id="BankAccount" parent="1" style="swimlane;startSize=35;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;" value="BankAccount" vertex="1">
-          <mxGeometry height="240" width="300" x="590" y="605" as="geometry" />
-        </mxCell>
-        <mxCell id="BankAccount-attrs" parent="BankAccount" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- accountNo : String {5 digits, auto-generated, unique}&lt;br/&gt;- accountType : AccountType&lt;br/&gt;- balance : Double {default=0}&lt;br/&gt;- ownerUserID : String" vertex="1">
-          <mxGeometry height="75" width="300" y="35" as="geometry" />
-        </mxCell>
-        <mxCell id="BankAccount-divider" parent="BankAccount" style="line;strokeColor=#d6b656;" value="" vertex="1">
-          <mxGeometry height="10" width="300" y="110" as="geometry" />
-        </mxCell>
-        <mxCell id="BankAccount-methods" parent="BankAccount" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ getAccountInfo(userID: String) : String&lt;br&gt;+ updateBalance(amount: Double,accountNo: String) : void&lt;br&gt;+ getLastTransaction(accountNo: String) : Transaction&lt;br&gt;+ validateAccountNo(accountNo: String) : Boolean&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;pre class=&quot;overflow-visible! px-0!&quot; data-start=&quot;2180&quot; data-end=&quot;2228&quot;&gt;&lt;div class=&quot;relative w-full mt-4 mb-1&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;div class=&quot;relative&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;div class=&quot;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;" vertex="1">
-          <mxGeometry height="115" width="300" y="120" as="geometry" />
-        </mxCell>
-        <mxCell id="Transaction" parent="1" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" value="Transaction" vertex="1">
-          <mxGeometry height="255" width="310" x="560" y="900" as="geometry" />
-        </mxCell>
-        <mxCell id="Transaction-attrs" parent="Transaction" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- transactionID : String&lt;br/&gt;- amount : Double {1000..5000}&lt;br/&gt;- date : Date&lt;br/&gt;- type : TransactionType&lt;br/&gt;- fromAccountNo : String {5 digits}&lt;br/&gt;- toAccountNo : String {5 digits, nullable}" vertex="1">
-          <mxGeometry height="110" width="310" y="35" as="geometry" />
-        </mxCell>
-        <mxCell id="Transaction-divider" parent="Transaction" style="line;strokeColor=#82b366;" value="" vertex="1">
-          <mxGeometry height="10" width="310" y="145" as="geometry" />
-        </mxCell>
-        <mxCell id="Transaction-methods" parent="Transaction" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ doTransaction() : Boolean&lt;br&gt;- validateAmount(amount: Double) : Boolean&lt;br&gt;- validateAccountNo(accountNo: String) : Boolean&lt;br&gt;+ getTransactionDetails() : String" vertex="1">
-          <mxGeometry height="100" width="310" y="155" as="geometry" />
-        </mxCell>
-        <mxCell id="AccountType" parent="1" style="swimlane;startSize=50;fillColor=#ffe6cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" value="AccountType (enum)" vertex="1">
-          <mxGeometry height="100" width="180" x="330" y="860" as="geometry" />
-        </mxCell>
-        <mxCell id="AccountType-vals" parent="AccountType" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=12;" value="SAVING&lt;br/&gt;CURRENT" vertex="1">
-          <mxGeometry height="50" width="180" y="50" as="geometry" />
-        </mxCell>
-        <mxCell id="TransactionType" parent="1" style="swimlane;startSize=50;fillColor=#ffe6cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" value="TransactionType (enum)" vertex="1">
-          <mxGeometry height="115" width="180" x="950" y="1050" as="geometry" />
-        </mxCell>
-        <mxCell id="TransactionType-vals" parent="TransactionType" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=12;" value="DEPOSIT&lt;br/&gt;WITHDRAW&lt;br/&gt;FUND_TRANSFER" vertex="1">
-          <mxGeometry height="65" width="180" y="50" as="geometry" />
+        <mxCell id="QAWorkshopApp-methods" parent="QAWorkshopApp" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ main(args: String[]) : void" vertex="1">
+          <mxGeometry height="50" width="240" y="45" as="geometry" />
         </mxCell>
         <mxCell id="AuthService" parent="1" style="swimlane;startSize=35;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" value="AuthService" vertex="1">
-          <mxGeometry height="220" width="310" x="1050" y="100" as="geometry">
-            <mxRectangle height="35" width="110" x="1050" y="100" as="alternateBounds" />
-          </mxGeometry>
+          <mxGeometry height="150" width="330" x="640" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="AuthService-attrs" parent="AuthService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- validationService : ValidationService" vertex="1">
+          <mxGeometry height="28" width="330" y="35" as="geometry" />
         </mxCell>
         <mxCell id="AuthService-divider" parent="AuthService" style="line;strokeColor=#b85450;" value="" vertex="1">
-          <mxGeometry height="10" width="310" y="75" as="geometry" />
+          <mxGeometry height="10" width="330" y="63" as="geometry" />
         </mxCell>
-        <mxCell id="AuthService-methods" parent="AuthService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ authenticate(email: String, password: String) : String&lt;br&gt;- validateEmail(email: String) : Boolean&lt;br&gt;- validatePassword(password: String) : Boolean&lt;div&gt;+ redirectAfterLogin(role: String) : String&lt;/div&gt;" vertex="1">
-          <mxGeometry height="130" width="310" y="85" as="geometry" />
+        <mxCell id="AuthService-methods" parent="AuthService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ authenticate(email: String, password: String) : String&lt;br/&gt;+ redirectAfterLogin(role: String) : String" vertex="1">
+          <mxGeometry height="77" width="330" y="73" as="geometry" />
         </mxCell>
-        <mxCell id="ValidationService" parent="1" style="swimlane;startSize=35;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" value="Validation_Service" vertex="1">
-          <mxGeometry height="255" width="387.5" x="162.5" y="102.5" as="geometry" />
+        <mxCell id="SessionManager" parent="1" style="swimlane;startSize=35;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" value="SessionManager" vertex="1">
+          <mxGeometry height="165" width="300" x="1000" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="SessionManager-attrs" parent="SessionManager" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- static currentUserId : String&lt;br/&gt;- static currentRole : String" vertex="1">
+          <mxGeometry height="44" width="300" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="SessionManager-divider" parent="SessionManager" style="line;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="10" width="300" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="SessionManager-methods" parent="SessionManager" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ static setCurrentUserId(userId: String) : void&lt;br/&gt;+ static getCurrentUserId() : String&lt;br/&gt;+ static setCurrentRole(role: String) : void&lt;br/&gt;+ static getCurrentRole() : String&lt;br/&gt;+ static clearSession() : void" vertex="1">
+          <mxGeometry height="76" width="300" y="89" as="geometry" />
+        </mxCell>
+        <mxCell id="ValidationService" parent="1" style="swimlane;startSize=35;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" value="ValidationService" vertex="1">
+          <mxGeometry height="310" width="390" x="1330" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ValidationService-attrs" parent="ValidationService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ static final MIN_AMOUNT : double = 1000&lt;br/&gt;+ static final MAX_AMOUNT : double = 5000&lt;br/&gt;+ static final ACCOUNT_NO_LENGTH : int = 5&lt;br/&gt;+ static final USER_ID_LENGTH : int = 1&lt;br/&gt;+ static final MAX_ACCOUNTS : int = 3&lt;br/&gt;+ static final MIN_PASSWORD_LENGTH : int = 5&lt;br/&gt;+ static final MAX_PASSWORD_LENGTH : int = 30&lt;br/&gt;+ static final MIN_NAME_LENGTH : int = 5&lt;br/&gt;+ static final MAX_NAME_LENGTH : int = 30" vertex="1">
+          <mxGeometry height="170" width="390" y="35" as="geometry" />
         </mxCell>
         <mxCell id="ValidationService-divider" parent="ValidationService" style="line;strokeColor=#b85450;" value="" vertex="1">
-          <mxGeometry height="10" width="310" y="130" as="geometry" />
+          <mxGeometry height="10" width="390" y="205" as="geometry" />
         </mxCell>
-        <mxCell id="ValidationService-methods" parent="ValidationService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ validateUserID(userID: String) : Boolean&lt;br&gt;+ validateAccountNo(accountNo: String) : Boolean&lt;br&gt;+ validateAmount(amount: Double) : Boolean&lt;br&gt;+ validateAccountLimit(count: int) : Boolean&lt;br&gt;+ validateAccountType(type: String) : Boolean&lt;br&gt;+ validateSSN(ssn: String) : Boolean&lt;br&gt;+ validateName(name: String) : Boolean&lt;br&gt;+ isUserIDExists(userID: String) : Boolean&lt;br&gt;+ isAccountExists(accountNo: String) : Boolean" vertex="1">
-          <mxGeometry height="120" width="380" y="135" as="geometry" />
+        <mxCell id="ValidationService-methods" parent="ValidationService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ validateUserID(userID: String) : boolean&lt;br/&gt;+ validateAccountNo(accountNo: String) : boolean&lt;br/&gt;+ validateAmount(amount: double) : boolean&lt;br/&gt;+ validateAccountLimit(count: int) : boolean&lt;br/&gt;+ validateAccountType(type: String) : boolean&lt;br/&gt;+ validateSSN(ssn: String) : boolean&lt;br/&gt;+ validateName(name: String) : boolean&lt;br/&gt;+ validateEmail(email: String) : boolean&lt;br/&gt;+ validatePassword(password: String) : boolean&lt;br/&gt;+ isUserIDExists(userID: String) : boolean&lt;br/&gt;+ isAccountExists(accountNo: String) : boolean&lt;br/&gt;- meetsPasswordConstraints(password: String) : boolean" vertex="1">
+          <mxGeometry height="95" width="390" y="215" as="geometry" />
         </mxCell>
-        <mxCell id="ValidationService-attrs" parent="ValidationService" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="&lt;font style=&quot;font-size: 7px;&quot;&gt;- minAmount : Double = 1000&lt;br&gt;- maxAmount : Double = 5000&lt;br&gt;- accountNoLength : int = 5&lt;br&gt;- userIDLength : int = 5&lt;br&gt;- maxAccounts : int = 3&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 7px;&quot;&gt;- maxPasswordLength : int = 30&lt;br&gt;- minPasswordLength : int = 5&lt;/font&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="100" width="290" y="30" as="geometry" />
+        <mxCell id="DBConnection" parent="1" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" value="DBConnection" vertex="1">
+          <mxGeometry height="95" width="260" x="1600" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="rel-user-client" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="User">
+        <mxCell id="DBConnection-divider" parent="DBConnection" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="10" width="260" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="DBConnection-methods" parent="DBConnection" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ static connect() : Connection" vertex="1">
+          <mxGeometry height="50" width="260" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="DBInit" parent="1" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" value="DBInit" vertex="1">
+          <mxGeometry height="95" width="250" x="1900" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="DBInit-divider" parent="DBInit" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="10" width="250" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="DBInit-methods" parent="DBInit" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ static initialize() : void" vertex="1">
+          <mxGeometry height="50" width="250" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="AbstractUser" parent="1" style="swimlane;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AbstractUser (abstract)" vertex="1">
+          <mxGeometry height="245" width="330" x="660" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="AbstractUser-attrs" parent="AbstractUser" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- userID : String&lt;br/&gt;- firstName : String&lt;br/&gt;- lastName : String&lt;br/&gt;- email : String&lt;br/&gt;- password : String&lt;br/&gt;- ssn : String" vertex="1">
+          <mxGeometry height="116" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AbstractUser-divider" parent="AbstractUser" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="151" as="geometry" />
+        </mxCell>
+        <mxCell id="AbstractUser-methods" parent="AbstractUser" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AbstractUser()&lt;br/&gt;+ AbstractUser(userID: String, firstName: String, lastName: String, email: String, password: String, ssn: String)&lt;br/&gt;+ login(email: String, password: String) : boolean&lt;br/&gt;+ logout() : void&lt;br/&gt;- validateCredentials() : boolean" vertex="1">
+          <mxGeometry height="84" width="330" y="161" as="geometry" />
+        </mxCell>
+        <mxCell id="Client" parent="1" style="swimlane;startSize=35;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;" value="Client" vertex="1">
+          <mxGeometry height="285" width="360" x="195" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="Client-attrs" parent="Client" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- accounts : List&lt;BankAccount&gt;" vertex="1">
+          <mxGeometry height="28" width="360" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="Client-divider" parent="Client" style="line;strokeColor=#9673a6;" value="" vertex="1">
+          <mxGeometry height="10" width="360" y="63" as="geometry" />
+        </mxCell>
+        <mxCell id="Client-methods" parent="Client" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ Client()&lt;br/&gt;+ Client(userID: String, firstName: String, lastName: String, email: String, password: String, ssn: String)&lt;br/&gt;+ getAccounts() : List&lt;BankAccount&gt;&lt;br/&gt;+ register(firstName: String, lastName: String, email: String, ssn: String, password: String) : boolean&lt;br/&gt;+ createAccount(type: AccountType) : BankAccount&lt;br/&gt;+ viewAccountInfo(userID: String) : List&lt;String&gt;&lt;br/&gt;+ viewTransactionHistory(accountNo: String) : List&lt;String&gt;&lt;br/&gt;+ deposit(accountNo: String, amount: double) : boolean&lt;br/&gt;+ withdraw(accountNo: String, amount: double) : boolean&lt;br/&gt;+ fundTransfer(fromAcc: String, toAcc: String, amount: double) : boolean&lt;br/&gt;+ validateMaxAccounts(userId: String) : boolean" vertex="1">
+          <mxGeometry height="212" width="360" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="Admin" parent="1" style="swimlane;startSize=35;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;" value="Admin" vertex="1">
+          <mxGeometry height="250" width="360" x="1040" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="Admin-attrs" parent="Admin" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- adminID : String" vertex="1">
+          <mxGeometry height="28" width="360" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="Admin-divider" parent="Admin" style="line;strokeColor=#9673a6;" value="" vertex="1">
+          <mxGeometry height="10" width="360" y="63" as="geometry" />
+        </mxCell>
+        <mxCell id="Admin-methods" parent="Admin" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ Admin()&lt;br/&gt;+ Admin(userID: String, firstName: String, lastName: String, email: String, password: String, ssn: String, adminID: String)&lt;br/&gt;+ getAdminID() : String&lt;br/&gt;+ createClientAccount(userID: String) : boolean&lt;br/&gt;+ deleteClientAccount(accountNo: String) : boolean&lt;br/&gt;+ viewClientDetails(userID: String) : Client&lt;br/&gt;+ editClientData(userID: String, firstName: String, lastName: String, email: String) : boolean&lt;br/&gt;+ fundTransfer(fromAcc: String, toAcc: String, amount: double) : boolean&lt;br/&gt;- validateUserID(userID: String) : boolean&lt;br/&gt;- validateAccountNo(accountNo: String) : boolean" vertex="1">
+          <mxGeometry height="177" width="360" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="BankAccount" parent="1" style="swimlane;startSize=35;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;" value="BankAccount" vertex="1">
+          <mxGeometry height="255" width="330" x="660" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="BankAccount-attrs" parent="BankAccount" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- accountNo : String&lt;br/&gt;- accountType : AccountType&lt;br/&gt;- balance : double&lt;br/&gt;- ownerUserID : String" vertex="1">
+          <mxGeometry height="80" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="BankAccount-divider" parent="BankAccount" style="line;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="BankAccount-methods" parent="BankAccount" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ BankAccount()&lt;br/&gt;+ BankAccount(accountNo: String, accountType: AccountType, balance: double, ownerUserID: String)&lt;br/&gt;+ getAccountNo() : String&lt;br/&gt;+ getAccountType() : AccountType&lt;br/&gt;+ getBalance() : double&lt;br/&gt;+ getOwnerUserID() : String&lt;br/&gt;+ getAccountInfo(userID: String) : String&lt;br/&gt;+ updateBalance(amount: double, accountNo: String) : void&lt;br/&gt;+ getLastTransaction(accountNo: String) : Transaction&lt;br/&gt;+ validateAccountNo(accountNo: String) : boolean" vertex="1">
+          <mxGeometry height="130" width="330" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="Transaction" parent="1" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" value="Transaction" vertex="1">
+          <mxGeometry height="250" width="340" x="1440" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="Transaction-attrs" parent="Transaction" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- transactionID : String&lt;br/&gt;- amount : double&lt;br/&gt;- date : Date&lt;br/&gt;- type : TransactionType&lt;br/&gt;- fromAccountNo : String&lt;br/&gt;- toAccountNo : String" vertex="1">
+          <mxGeometry height="116" width="340" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="Transaction-divider" parent="Transaction" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="10" width="340" y="151" as="geometry" />
+        </mxCell>
+        <mxCell id="Transaction-methods" parent="Transaction" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ Transaction()&lt;br/&gt;+ Transaction(transactionID: String, amount: double, date: Date, type: TransactionType, fromAccountNo: String, toAccountNo: String)&lt;br/&gt;+ doTransaction() : boolean&lt;br/&gt;+ getTransactionDetails() : String&lt;br/&gt;- validateAmount(amount: double) : boolean&lt;br/&gt;- validateAccountNo(accountNo: String) : boolean" vertex="1">
+          <mxGeometry height="89" width="340" y="161" as="geometry" />
+        </mxCell>
+        <mxCell id="AccountType" parent="1" style="swimlane;startSize=45;fillColor=#ffe6cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" value="AccountType (enum)" vertex="1">
+          <mxGeometry height="115" width="190" x="1840" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="AccountType-vals" parent="AccountType" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=12;" value="saving&lt;br/&gt;current" vertex="1">
+          <mxGeometry height="70" width="190" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="TransactionType" parent="1" style="swimlane;startSize=45;fillColor=#ffe6cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" value="TransactionType (enum)" vertex="1">
+          <mxGeometry height="130" width="190" x="1840" y="905" as="geometry" />
+        </mxCell>
+        <mxCell id="TransactionType-vals" parent="TransactionType" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=12;" value="DEPOSIT&lt;br/&gt;WITHDRAW&lt;br/&gt;FUND_TRANSFER" vertex="1">
+          <mxGeometry height="85" width="190" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="BaseFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="BaseFrame (abstract)" vertex="1">
+          <mxGeometry height="260" width="360" x="940" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="BaseFrame-attrs" parent="BaseFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="# static DEFAULT_WIDTH : int = 920&lt;br/&gt;# static DEFAULT_HEIGHT : int = 680&lt;br/&gt;# static BACKGROUND_COLOR : Color&lt;br/&gt;# static ACCENT_BLUE : Color" vertex="1">
+          <mxGeometry height="80" width="360" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="BaseFrame-divider" parent="BaseFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="360" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="BaseFrame-methods" parent="BaseFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ BaseFrame(title: String)&lt;br/&gt;+ BaseFrame(title: String, width: int, height: int)&lt;br/&gt;# initComponents() : void&lt;br/&gt;# createRootPanel(roleText: String) : JPanel&lt;br/&gt;# createPagePanel() : JPanel&lt;br/&gt;# createButton(text: String) : JButton&lt;br/&gt;# styleTable(table: JTable, showHeader: boolean, colorFirstColumn: boolean) : void&lt;br/&gt;# openFrame(nextFrame: JFrame) : void&lt;br/&gt;# showSuccess(message: String) : void&lt;br/&gt;# showError(message: String) : void" vertex="1">
+          <mxGeometry height="135" width="360" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="LoginFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="LoginFrame" vertex="1">
+          <mxGeometry height="175" width="295" x="80" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="LoginFrame-attrs" parent="LoginFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- emailField : JTextField&lt;br/&gt;- passwordField : JPasswordField" vertex="1">
+          <mxGeometry height="44" width="295" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="LoginFrame-divider" parent="LoginFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="295" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="LoginFrame-methods" parent="LoginFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ LoginFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleLogin() : void&lt;br/&gt;- openNextFrame(role: String) : void&lt;br/&gt;- handleCreateAccount() : void" vertex="1">
+          <mxGeometry height="86" width="295" y="89" as="geometry" />
+        </mxCell>
+        <mxCell id="RegistrationFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="RegistrationFrame" vertex="1">
+          <mxGeometry height="200" width="330" x="405" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="RegistrationFrame-attrs" parent="RegistrationFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- firstNameField : JTextField&lt;br/&gt;- lastNameField : JTextField&lt;br/&gt;- ssnField : JTextField&lt;br/&gt;- emailField : JTextField&lt;br/&gt;- passwordField : JPasswordField" vertex="1">
+          <mxGeometry height="98" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="RegistrationFrame-divider" parent="RegistrationFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="133" as="geometry" />
+        </mxCell>
+        <mxCell id="RegistrationFrame-methods" parent="RegistrationFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ RegistrationFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleRegister() : void&lt;br/&gt;- validateRegistrationInput(...) : boolean" vertex="1">
+          <mxGeometry height="57" width="330" y="143" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminHomeFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AdminHomeFrame" vertex="1">
+          <mxGeometry height="175" width="300" x="770" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminHomeFrame-divider" parent="AdminHomeFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="300" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminHomeFrame-methods" parent="AdminHomeFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AdminHomeFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleCreateAccount() : void&lt;br/&gt;- handleDeleteAccount() : void&lt;br/&gt;- handleViewAccounts() : void&lt;br/&gt;- handleFundTransfer() : void&lt;br/&gt;- handleEditAccountInfo() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="130" width="300" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="UserHomeFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="UserHomeFrame" vertex="1">
+          <mxGeometry height="165" width="300" x="1100" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="UserHomeFrame-divider" parent="UserHomeFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="300" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UserHomeFrame-methods" parent="UserHomeFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ UserHomeFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleNewAccount() : void&lt;br/&gt;- handleTransaction() : void&lt;br/&gt;- handleViewAccountInfo() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="120" width="300" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminCreateAccountFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AdminCreateAccountFrame" vertex="1">
+          <mxGeometry height="175" width="330" x="80" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminCreateAccountFrame-attrs" parent="AdminCreateAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- userIdField : JTextField&lt;br/&gt;- accountTypeCombo : JComboBox&lt;String&gt;" vertex="1">
+          <mxGeometry height="44" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminCreateAccountFrame-divider" parent="AdminCreateAccountFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminCreateAccountFrame-methods" parent="AdminCreateAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AdminCreateAccountFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleCreateAccount() : void&lt;br/&gt;- handleBack() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="86" width="330" y="89" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminDeleteAccountFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AdminDeleteAccountFrame" vertex="1">
+          <mxGeometry height="165" width="330" x="440" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminDeleteAccountFrame-attrs" parent="AdminDeleteAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- accountNoField : JTextField" vertex="1">
+          <mxGeometry height="28" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminDeleteAccountFrame-divider" parent="AdminDeleteAccountFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="63" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminDeleteAccountFrame-methods" parent="AdminDeleteAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AdminDeleteAccountFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleDeleteAccount() : void&lt;br/&gt;- handleHome() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="92" width="330" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminEditAccountFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AdminEditAccountFrame" vertex="1">
+          <mxGeometry height="195" width="330" x="790" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminEditAccountFrame-attrs" parent="AdminEditAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- userIdField : JTextField&lt;br/&gt;- firstNameField : JTextField&lt;br/&gt;- lastNameField : JTextField&lt;br/&gt;- emailField : JTextField&lt;br/&gt;- saveButton : JButton" vertex="1">
+          <mxGeometry height="98" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminEditAccountFrame-divider" parent="AdminEditAccountFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="133" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminEditAccountFrame-methods" parent="AdminEditAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AdminEditAccountFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleSearch() : void&lt;br/&gt;- handleEditAccount() : void&lt;br/&gt;- handleHome() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="52" width="330" y="143" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminFundTransferFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AdminFundTransferFrame" vertex="1">
+          <mxGeometry height="175" width="330" x="1160" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminFundTransferFrame-attrs" parent="AdminFundTransferFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- toAccountField : JTextField&lt;br/&gt;- fromAccountField : JTextField&lt;br/&gt;- amountField : JTextField" vertex="1">
+          <mxGeometry height="62" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminFundTransferFrame-divider" parent="AdminFundTransferFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="97" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminFundTransferFrame-methods" parent="AdminFundTransferFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AdminFundTransferFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleFundTransfer() : void&lt;br/&gt;- handleHome() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="68" width="330" y="107" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminViewAccountFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="AdminViewAccountFrame" vertex="1">
+          <mxGeometry height="180" width="330" x="1520" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminViewAccountFrame-attrs" parent="AdminViewAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- userIdField : JTextField&lt;br/&gt;- tableModel : DefaultTableModel" vertex="1">
+          <mxGeometry height="44" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminViewAccountFrame-divider" parent="AdminViewAccountFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="AdminViewAccountFrame-methods" parent="AdminViewAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ AdminViewAccountFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleViewAccount() : void&lt;br/&gt;- showClientDetails(client: Client) : void&lt;br/&gt;- handleHome() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="91" width="330" y="89" as="geometry" />
+        </mxCell>
+        <mxCell id="UserNewAccountFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="UserNewAccountFrame" vertex="1">
+          <mxGeometry height="175" width="330" x="1450" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="UserNewAccountFrame-attrs" parent="UserNewAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- static final CURRENT_ACCOUNT_COUNT : int = 0&lt;br/&gt;- accountTypeCombo : JComboBox&lt;String&gt;" vertex="1">
+          <mxGeometry height="44" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UserNewAccountFrame-divider" parent="UserNewAccountFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="UserNewAccountFrame-methods" parent="UserNewAccountFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ UserNewAccountFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleCreateAccount() : void&lt;br/&gt;- handleHome() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="86" width="330" y="89" as="geometry" />
+        </mxCell>
+        <mxCell id="UserTransactionFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="UserTransactionFrame" vertex="1">
+          <mxGeometry height="245" width="360" x="1810" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="UserTransactionFrame-attrs" parent="UserTransactionFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- depositAccountField : JTextField&lt;br/&gt;- withdrawAccountField : JTextField&lt;br/&gt;- transferToField : JTextField&lt;br/&gt;- transferFromField : JTextField&lt;br/&gt;- historyTableModel : DefaultTableModel" vertex="1">
+          <mxGeometry height="98" width="360" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UserTransactionFrame-divider" parent="UserTransactionFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="360" y="133" as="geometry" />
+        </mxCell>
+        <mxCell id="UserTransactionFrame-methods" parent="UserTransactionFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ UserTransactionFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- handleDeposit() : void&lt;br/&gt;- handleWithdraw() : void&lt;br/&gt;- handleFundTransfer() : void&lt;br/&gt;- handleHistorySearch() : void&lt;br/&gt;- parseAmount(amountText: String) : double&lt;br/&gt;- validateAccountAndAmount(accountNo: String, amount: double) : boolean" vertex="1">
+          <mxGeometry height="102" width="360" y="143" as="geometry" />
+        </mxCell>
+        <mxCell id="UserViewAccountInfoFrame" parent="1" style="swimlane;startSize=35;fillColor=#d9eaf7;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" value="UserViewAccountInfoFrame" vertex="1">
+          <mxGeometry height="165" width="330" x="2200" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="UserViewAccountInfoFrame-attrs" parent="UserViewAccountInfoFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="- tableModel : DefaultTableModel" vertex="1">
+          <mxGeometry height="28" width="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UserViewAccountInfoFrame-divider" parent="UserViewAccountInfoFrame" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="10" width="330" y="63" as="geometry" />
+        </mxCell>
+        <mxCell id="UserViewAccountInfoFrame-methods" parent="UserViewAccountInfoFrame" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" value="+ UserViewAccountInfoFrame()&lt;br/&gt;# initComponents() : void&lt;br/&gt;- loadAccountInfo() : void&lt;br/&gt;- handleHome() : void&lt;br/&gt;- handleLogout() : void" vertex="1">
+          <mxGeometry height="92" width="330" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-client-abstractuser" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="AbstractUser">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="280" y="510" />
-              <mxPoint x="740" y="510" />
+              <mxPoint x="540" y="720" />
+              <mxPoint x="825" y="720" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-user-client-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="extends" vertex="1">
-          <mxGeometry height="20" width="60" x="430" y="495" as="geometry" />
+        <mxCell id="rel-client-abstractuser-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="extends" vertex="1">
+          <mxGeometry height="22" width="90" x="520" y="720" as="geometry" />
         </mxCell>
-        <mxCell id="rel-user-admin" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="User">
+        <mxCell id="rel-admin-abstractuser" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="AbstractUser">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1205" y="510" />
-              <mxPoint x="740" y="510" />
+              <mxPoint x="1220" y="720" />
+              <mxPoint x="825" y="720" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-user-admin-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="extends" vertex="1">
-          <mxGeometry height="20" width="60" x="950" y="495" as="geometry" />
+        <mxCell id="rel-admin-abstractuser-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="extends" vertex="1">
+          <mxGeometry height="22" width="90" x="1005" y="720" as="geometry" />
         </mxCell>
         <mxCell id="rel-client-bankaccount" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=diamond;startFill=1;endArrow=none;strokeColor=#82b366;strokeWidth=2;" target="BankAccount">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="430" y="660" />
-              <mxPoint x="580" y="660" />
+              <mxPoint x="630" y="880" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-client-bankaccount-label" parent="1" style="text;html=1;fontSize=10;fillColor=none;strokeColor=none;align=center;" value="owns&lt;br&gt;&amp;nbsp;0..3" vertex="1">
-          <mxGeometry height="30" width="90" x="455" y="645" as="geometry" />
+        <mxCell id="rel-client-bankaccount-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="owns 0..3" vertex="1">
+          <mxGeometry height="22" width="90" x="610" y="880" as="geometry" />
         </mxCell>
-        <mxCell id="rel-bankaccount-transaction" edge="1" parent="1" source="BankAccount" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=diamond;startFill=0;endArrow=none;strokeColor=#d6b656;strokeWidth=2;" target="Transaction">
+        <mxCell id="rel-bankaccount-accounttype" edge="1" parent="1" source="BankAccount" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="AccountType">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="730" y="800" />
-              <mxPoint x="715" y="900" />
+              <mxPoint x="1150" y="805" />
+              <mxPoint x="1150" y="720" />
+              <mxPoint x="1935" y="720" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-bankaccount-transaction-label" parent="1" style="text;html=1;fontSize=10;fillColor=none;strokeColor=none;align=center;" value="has&lt;br&gt;0..*" vertex="1">
-          <mxGeometry height="30" width="65" x="700" y="845" as="geometry" />
+        <mxCell id="rel-bankaccount-accounttype-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="uses" vertex="1">
+          <mxGeometry height="22" width="90" x="1420" y="805" as="geometry" />
         </mxCell>
-        <mxCell id="rel-admin-bankaccount" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.5;" target="BankAccount">
+        <mxCell id="rel-bankaccount-transaction" edge="1" parent="1" source="BankAccount" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="Transaction">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1050" y="630" />
-              <mxPoint x="880" y="630" />
+              <mxPoint x="1190" y="930" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-admin-bankaccount-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="manages" vertex="1">
-          <mxGeometry height="20" width="70" x="930" y="610" as="geometry" />
+        <mxCell id="rel-bankaccount-transaction-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="returns" vertex="1">
+          <mxGeometry height="22" width="90" x="1120" y="930" as="geometry" />
         </mxCell>
-        <mxCell id="rel-admin-transaction" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.5;" target="Transaction">
+        <mxCell id="rel-transaction-transactiontype" edge="1" parent="1" source="Transaction" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="TransactionType">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-transaction-transactiontype-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="uses" vertex="1">
+          <mxGeometry height="22" width="90" x="1785" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-admin-client" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="Client">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1205" y="820" />
-              <mxPoint x="1205" y="960" />
-              <mxPoint x="870" y="960" />
+              <mxPoint x="1220" y="1060" />
+              <mxPoint x="430" y="1060" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-admin-transaction-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="creates" vertex="1">
-          <mxGeometry height="20" width="60" x="1000" y="940" as="geometry" />
+        <mxCell id="rel-admin-client-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="creates/views" vertex="1">
+          <mxGeometry height="22" width="90" x="800" y="1040" as="geometry" />
         </mxCell>
-        <mxCell id="rel-client-transaction" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.5;" target="Transaction">
+        <mxCell id="rel-admin-bankaccount" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="BankAccount">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-admin-bankaccount-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="manages" vertex="1">
+          <mxGeometry height="22" width="90" x="975" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-auth-validation" edge="1" parent="1" source="AuthService" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=diamond;startFill=1;endArrow=none;strokeColor=#82b366;strokeWidth=2;" target="ValidationService">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-auth-validation-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="has" vertex="1">
+          <mxGeometry height="22" width="90" x="1085" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-auth-session" edge="1" parent="1" source="AuthService" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="SessionManager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-auth-session-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="updates session" vertex="1">
+          <mxGeometry height="22" width="90" x="960" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-services-db" edge="1" parent="1" source="ValidationService" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="DBConnection">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="280" y="810" />
-              <mxPoint x="280" y="990" />
-              <mxPoint x="560" y="990" />
+              <mxPoint x="1780" y="320" />
+              <mxPoint x="1780" y="210" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-client-transaction-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="performs" vertex="1">
-          <mxGeometry height="20" width="65" x="340" y="975" as="geometry" />
+        <mxCell id="rel-services-db-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="queries" vertex="1">
+          <mxGeometry height="22" width="90" x="1710" y="245" as="geometry" />
         </mxCell>
-        <mxCell id="rel-bankaccount-accounttype" edge="1" parent="1" source="BankAccount" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;strokeWidth=1.5;" target="AccountType">
+        <mxCell id="rel-auth-db" edge="1" parent="1" source="AuthService" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="DBConnection">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="580" y="690" />
-              <mxPoint x="400" y="690" />
-              <mxPoint x="400" y="890" />
+              <mxPoint x="980" y="260" />
+              <mxPoint x="1600" y="260" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-bankaccount-accounttype-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="uses" vertex="1">
-          <mxGeometry height="20" width="40" x="405" y="780" as="geometry" />
+        <mxCell id="rel-auth-db-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="queries" vertex="1">
+          <mxGeometry height="22" width="90" x="1150" y="250" as="geometry" />
         </mxCell>
-        <mxCell id="rel-transaction-transactiontype" edge="1" parent="1" source="Transaction" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#82b366;strokeWidth=1.5;" target="TransactionType">
+        <mxCell id="rel-dbinit-dbconnection" edge="1" parent="1" source="DBInit" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBConnection">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-dbinit-dbconnection-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="uses" vertex="1">
+          <mxGeometry height="22" width="90" x="1830" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-main-dbinit" edge="1" parent="1" source="Main" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBInit">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="870" y="980" />
-              <mxPoint x="980" y="980" />
+              <mxPoint x="290" y="120" />
+              <mxPoint x="1900" y="120" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-transaction-transactiontype-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="uses" vertex="1">
-          <mxGeometry height="20" width="40" x="895" y="962" as="geometry" />
+        <mxCell id="rel-main-dbinit-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="initializes" vertex="1">
+          <mxGeometry height="22" width="90" x="1180" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="rel-user-authservice" edge="1" parent="1" source="User" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="AuthService">
+        <mxCell id="rel-qa-main" edge="1" parent="1" source="QAWorkshopApp" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="Main">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-qa-main-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="delegates" vertex="1">
+          <mxGeometry height="22" width="90" x="265" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-abstractuser-session" edge="1" parent="1" source="AbstractUser" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="SessionManager">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1050" y="240" />
+              <mxPoint x="990" y="520" />
+              <mxPoint x="1140" y="520" />
+              <mxPoint x="1140" y="255" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-user-authservice-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="«uses»" vertex="1">
-          <mxGeometry height="20" width="55" x="937.5" y="130" as="geometry" />
+        <mxCell id="rel-abstractuser-session-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="logout clears" vertex="1">
+          <mxGeometry height="22" width="90" x="990" y="410" as="geometry" />
         </mxCell>
-        <mxCell id="rel-client-validationservice" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="ValidationService">
+        <mxCell id="rel-domain-db" edge="1" parent="1" source="BankAccount" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBConnection">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="280" y="540" />
-              <mxPoint x="280" y="355" />
+              <mxPoint x="825" y="760" />
+              <mxPoint x="825" y="650" />
+              <mxPoint x="1730" y="650" />
+              <mxPoint x="1730" y="185" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-client-validationservice-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="«uses»" vertex="1">
-          <mxGeometry height="20" width="55" x="290" y="440" as="geometry" />
+        <mxCell id="rel-domain-db-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="persists/queries" vertex="1">
+          <mxGeometry height="22" width="90" x="1250" y="650" as="geometry" />
         </mxCell>
-        <mxCell id="rel-admin-validationservice" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.5;" target="ValidationService">
+        <mxCell id="rel-abstractuser-db" edge="1" parent="1" source="AbstractUser" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBConnection">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1205" y="440" />
-              <mxPoint x="740" y="440" />
-              <mxPoint x="740" y="390" />
-              <mxPoint x="440" y="390" />
-              <mxPoint x="440" y="270" />
+              <mxPoint x="825" y="430" />
+              <mxPoint x="1730" y="430" />
+              <mxPoint x="1730" y="185" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-admin-validationservice-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;" value="«uses»" vertex="1">
-          <mxGeometry height="20" width="55" x="750" y="345" as="geometry" />
-        </mxCell>
-        <mxCell id="leg1" edge="1" parent="1" style="endArrow=block;endFill=0;strokeColor=#9673a6;strokeWidth=2;html=1;" value="">
-          <mxGeometry height="10" width="60" x="1405" y="145" as="geometry">
+        <mxCell id="rel-admin-db" edge="1" parent="1" source="Admin" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBConnection">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1465" y="145" />
+              <mxPoint x="1220" y="730" />
+              <mxPoint x="1730" y="730" />
+              <mxPoint x="1730" y="185" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="leg2" edge="1" parent="1" style="startArrow=diamond;startFill=1;endArrow=none;strokeColor=#82b366;strokeWidth=2;html=1;" value="">
-          <mxGeometry height="10" width="60" x="1405" y="175" as="geometry">
+        <mxCell id="rel-client-db" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBConnection">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1465" y="175" />
+              <mxPoint x="430" y="715" />
+              <mxPoint x="1730" y="715" />
+              <mxPoint x="1730" y="185" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="leg3" edge="1" parent="1" style="startArrow=diamond;startFill=0;endArrow=none;strokeColor=#d6b656;strokeWidth=2;html=1;" value="">
-          <mxGeometry height="10" width="60" x="1405" y="205" as="geometry">
+        <mxCell id="rel-transaction-db" edge="1" parent="1" source="Transaction" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;" target="DBConnection">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1465" y="205" />
+              <mxPoint x="1610" y="740" />
+              <mxPoint x="1730" y="740" />
+              <mxPoint x="1730" y="185" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="leg4" edge="1" parent="1" style="endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.5;html=1;" value="">
-          <mxGeometry height="10" width="60" x="1405" y="235" as="geometry">
+        <mxCell id="rel-client-session" edge="1" parent="1" source="Client" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="SessionManager">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1465" y="235" />
+              <mxPoint x="430" y="760" />
+              <mxPoint x="430" y="600" />
+              <mxPoint x="1140" y="600" />
+              <mxPoint x="1140" y="255" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-client-session-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="current user" vertex="1">
+          <mxGeometry height="22" width="90" x="560" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-loginframe-baseframe" edge="1" parent="1" source="LoginFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-registrationframe-baseframe" edge="1" parent="1" source="RegistrationFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-adminhomeframe-baseframe" edge="1" parent="1" source="AdminHomeFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-userhomeframe-baseframe" edge="1" parent="1" source="UserHomeFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-usernewaccountframe-baseframe" edge="1" parent="1" source="UserNewAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1600" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-usertransactionframe-baseframe" edge="1" parent="1" source="UserTransactionFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1990" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-userviewaccountinfoframe-baseframe" edge="1" parent="1" source="UserViewAccountInfoFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2360" y="1390" />
+              <mxPoint x="1120" y="1390" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-admincreateaccountframe-baseframe" edge="1" parent="1" source="AdminCreateAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="245" y="1660" />
+              <mxPoint x="1120" y="1660" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-admindeleteaccountframe-baseframe" edge="1" parent="1" source="AdminDeleteAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="605" y="1660" />
+              <mxPoint x="1120" y="1660" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-admineditaccountframe-baseframe" edge="1" parent="1" source="AdminEditAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="965" y="1660" />
+              <mxPoint x="1120" y="1660" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-adminfundtransferframe-baseframe" edge="1" parent="1" source="AdminFundTransferFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1325" y="1660" />
+              <mxPoint x="1120" y="1660" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-adminviewaccountframe-baseframe" edge="1" parent="1" source="AdminViewAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;startArrow=none;strokeColor=#9673a6;strokeWidth=2;" target="BaseFrame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1685" y="1660" />
+              <mxPoint x="1120" y="1660" />
+              <mxPoint x="1120" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-login-auth" edge="1" parent="1" source="LoginFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="AuthService">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="225" y="1450" />
+              <mxPoint x="225" y="1220" />
+              <mxPoint x="805" y="1220" />
+              <mxPoint x="805" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-login-auth-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="authenticates" vertex="1">
+          <mxGeometry height="22" width="90" x="400" y="1220" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-registration-validation" edge="1" parent="1" source="RegistrationFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="ValidationService">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="1450" />
+              <mxPoint x="570" y="1220" />
+              <mxPoint x="1525" y="1220" />
+              <mxPoint x="1525" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-registration-validation-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="validates" vertex="1">
+          <mxGeometry height="22" width="90" x="740" y="1220" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-adminscreens-admin" edge="1" parent="1" source="AdminHomeFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="Admin">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="1450" />
+              <mxPoint x="920" y="1310" />
+              <mxPoint x="1220" y="1310" />
+              <mxPoint x="1220" y="1010" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-adminscreens-admin-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="opens admin flows" vertex="1">
+          <mxGeometry height="22" width="90" x="1040" y="1310" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-userframes-client" edge="1" parent="1" source="UserHomeFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="Client">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="1450" />
+              <mxPoint x="1250" y="1325" />
+              <mxPoint x="430" y="1325" />
+              <mxPoint x="430" y="1045" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-userframes-client-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="opens client flows" vertex="1">
+          <mxGeometry height="22" width="90" x="690" y="1325" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-admincreate-validation" edge="1" parent="1" source="AdminCreateAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="ValidationService">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="245" y="1700" />
+              <mxPoint x="245" y="1600" />
+              <mxPoint x="1525" y="1600" />
+              <mxPoint x="1525" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-admincreate-validation-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="validates" vertex="1">
+          <mxGeometry height="22" width="90" x="330" y="1600" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-usertransaction-validation" edge="1" parent="1" source="UserTransactionFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="ValidationService">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1990" y="1450" />
+              <mxPoint x="1990" y="1220" />
+              <mxPoint x="1720" y="1220" />
+              <mxPoint x="1720" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-usertransaction-validation-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="validates" vertex="1">
+          <mxGeometry height="22" width="90" x="1870" y="1220" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-userview-session" edge="1" parent="1" source="UserViewAccountInfoFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#b85450;strokeWidth=1.3;" target="SessionManager">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2360" y="1450" />
+              <mxPoint x="2360" y="1330" />
+              <mxPoint x="1140" y="1330" />
+              <mxPoint x="1140" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-userview-session-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="reads session" vertex="1">
+          <mxGeometry height="22" width="90" x="2050" y="1330" as="geometry" />
+        </mxCell>
+        <mxCell id="rel-usernew-accounttype" edge="1" parent="1" source="UserNewAccountFrame" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;strokeWidth=1.3;" target="AccountType">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1600" y="1450" />
+              <mxPoint x="1600" y="1260" />
+              <mxPoint x="1935" y="1260" />
+              <mxPoint x="1935" y="875" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-usernew-accounttype-label" parent="1" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;align=center;" value="uses" vertex="1">
+          <mxGeometry height="22" width="90" x="1790" y="1260" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontStyle=1;fontSize=16;align=left;spacingLeft=12;verticalAlign=middle;" value="Legend" vertex="1">
+          <mxGeometry height="30" width="220" x="2240" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-inherit" edge="1" parent="1" source="legend-title" style="endArrow=block;endFill=0;strokeColor=#9673a6;strokeWidth=2;html=1;" target="legend-title">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2290" y="120" />
+              <mxPoint x="2370" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg-inherit-text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=11;" value="inheritance" vertex="1">
+          <mxGeometry height="24" width="100" x="2380" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-comp" edge="1" parent="1" source="legend-title" style="startArrow=diamond;startFill=1;endArrow=none;strokeColor=#82b366;strokeWidth=2;html=1;" target="legend-title">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2290" y="150" />
+              <mxPoint x="2370" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg-comp-text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=11;" value="composition" vertex="1">
+          <mxGeometry height="24" width="100" x="2380" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-dep" edge="1" parent="1" source="legend-title" style="endArrow=open;endFill=0;dashed=1;strokeColor=#666666;strokeWidth=1.3;html=1;" target="legend-title">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2290" y="180" />
+              <mxPoint x="2370" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg-dep-text" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=11;" value="dependency" vertex="1">
+          <mxGeometry height="24" width="100" x="2380" y="170" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
