@@ -121,7 +121,7 @@ public class RegistrationFrame extends BaseFrame {
         ps.executeUpdate();
 
     } catch (SQLException e) {
-        showError("Registration failed. Please try again.");
+        showError("Please enter valid data");
         e.printStackTrace();
         return;
     }

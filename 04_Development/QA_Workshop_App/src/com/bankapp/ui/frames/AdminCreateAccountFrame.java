@@ -2,6 +2,7 @@ package com.bankapp.ui.frames;
 
 import com.bankapp.enums.AccountType;
 import com.bankapp.models.Admin;
+import com.bankapp.models.Client;
 import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
@@ -73,32 +74,41 @@ public class AdminCreateAccountFrame extends BaseFrame {
         String accountType = (String) accountTypeCombo.getSelectedItem();
 
         if (userID.isEmpty()) {
-            showError("Please enter a user ID.");
+            showError("Please enter valid user id");
             return;
         }
 
         ValidationService validationService = new ValidationService();
 
         if (!validationService.validateUserID(userID)) {
-            showError("Invalid user ID.");
+            showError("Please enter valid user id");
             return;
         }
 
         if (accountType == null || !validationService.validateAccountType(accountType)) {
-            showError("Please choose a valid account type.");
+            showError("Please choose account type");
             return;
         }
 
         if (!validationService.isUserIDExists(userID)) {
-            showError("User ID does not exist.");
+            openFrame(new RegistrationFrame());
+            return;
+        }
+
+        Client client = new Client();
+        if (!client.validateMaxAccounts(userID)) {
+            showError("You exceeded your accounts number limit");
             return;
         }
 
         Admin admin = new Admin();
-        admin.createClientAccount(userID);
+        boolean created = admin.createClientAccount(userID, AccountType.valueOf(accountType));
 
-        // TODO: Save the new account to the database later.
-        showSuccess(accountType + " account created for user " + userID + ".");
+        if (created) {
+            showSuccess("Account created successfully");
+        } else {
+            showError("Account creation failed");
+        }
     }
 
     private void handleBack() {

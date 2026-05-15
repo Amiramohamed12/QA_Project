@@ -3,6 +3,7 @@ package com.bankapp.ui.frames;
 import com.bankapp.enums.AccountType;
 import com.bankapp.models.BankAccount;
 import com.bankapp.models.Client;
+import com.bankapp.services.SessionManager;
 import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
@@ -12,8 +13,6 @@ import javax.swing.*;
  * Client new account page.
  */
 public class UserNewAccountFrame extends BaseFrame {
-
-    private static final int CURRENT_ACCOUNT_COUNT = 0;
 
     private JComboBox<String> accountTypeCombo;
 
@@ -41,6 +40,7 @@ public class UserNewAccountFrame extends BaseFrame {
         accountTypeLabel.setBounds(45, 125, 180, 35);
 
         String[] accountTypes = {
+                "Choose account type",
                 AccountType.saving.name(),
                 AccountType.current.name()
         };
@@ -64,28 +64,28 @@ public class UserNewAccountFrame extends BaseFrame {
 
     private void handleCreateAccount() {
         String selectedType = (String) accountTypeCombo.getSelectedItem();
-        System.out.print(selectedType);
         ValidationService validationService = new ValidationService();
+        Client client = new Client();
+        String currentUserID = SessionManager.getCurrentUserId();
 
         if (selectedType == null || !validationService.validateAccountType(selectedType)) {
-            showError("Please choose an account type.");
+            showError("Please choose account type");
             return;
         }
 
-        if (!validationService.validateAccountLimit(CURRENT_ACCOUNT_COUNT)) {
-            showError("Account limit reached.");
+        if (currentUserID == null || !client.validateMaxAccounts(currentUserID)) {
+            showError("You exceeded your accounts number limit");
             return;
         }
 
-        Client client = new Client();
         BankAccount account = client.createAccount(AccountType.valueOf(selectedType));
 
         if (account == null) {
-            showError("Account creation failed.");
+            showError("You exceeded your accounts number limit");
             return;
         }
 
-        showSuccess(account.getAccountType().name() + "Account created successfully with account number "+account.getAccountNo());
+        showSuccess("Account created successfully with account number " + account.getAccountNo());
     }
 
     private void handleHome() {
@@ -94,7 +94,7 @@ public class UserNewAccountFrame extends BaseFrame {
     }
 
     private void handleLogout() {
-        // TODO: clear user session when backend is ready.
+        SessionManager.clearSession();
         openFrame(new LoginFrame());
     }
 }

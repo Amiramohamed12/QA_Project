@@ -77,49 +77,64 @@ public class AdminFundTransferFrame extends BaseFrame {
         String fromAcc = fromAccountField.getText().trim();
         String amountText = amountField.getText().trim();
 
-        if (toAcc.isEmpty() || fromAcc.isEmpty() || amountText.isEmpty()) {
-            showError("Please fill in all transfer fields.");
+        if (toAcc.isEmpty() && fromAcc.isEmpty() && amountText.isEmpty()) {
+            showError("Please fill in all transfer data");
+            return;
+        }
+
+        if (toAcc.isEmpty() || fromAcc.isEmpty()) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (amountText.isEmpty()) {
+            showError("Please enter valid amount");
             return;
         }
 
         if (fromAcc.equals(toAcc)) {
-            showError("From account and to account cannot be the same.");
-            return;
-        }
-
-        ValidationService validationService = new ValidationService();
-
-        if (!validationService.validateAccountNo(fromAcc)) {
-            showError("Invalid from account number.");
-            return;
-        }
-
-        if (!validationService.validateAccountNo(toAcc)) {
-            showError("Invalid to account number.");
-            return;
-        }
-
-        if (!validationService.isAccountExists(fromAcc)) {
-            showError("From account does not exist.");
-            return;
-        }
-
-        if (!validationService.isAccountExists(toAcc)) {
-            showError("To account does not exist.");
+            showError("Please enter different valid account number");
             return;
         }
 
         double amount;
 
-        try {
-            amount = Double.parseDouble(amountText);
-        } catch (NumberFormatException e) {
-            showError("Invalid amount.");
+        if (!amountText.matches("\\d+")) {
+            showError("Please enter valid amount");
+            return;
+        }
+
+        amount = Double.parseDouble(amountText);
+
+        ValidationService validationService = new ValidationService();
+
+        if (!validationService.validateAccountNo(fromAcc)) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (!validationService.validateAccountNo(toAcc)) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (!validationService.isAccountExists(fromAcc)) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (!validationService.isAccountExists(toAcc)) {
+            showError("Please enter valid account number");
             return;
         }
 
         if (!validationService.validateAmount(amount)) {
-            showError("Invalid amount.");
+            showError("Please enter valid amount");
+            return;
+        }
+
+        if (validationService.getAccountBalance(fromAcc) < amount) {
+            showError("Insufficient balance in the source account");
             return;
         }
 
@@ -127,9 +142,9 @@ public class AdminFundTransferFrame extends BaseFrame {
         boolean transferred = admin.fundTransfer(fromAcc, toAcc, amount);
 
         if (transferred) {
-            showSuccess("Fund transfer completed successfully.");
+            showSuccess("Transaction done successfully");
         } else {
-            showError("Fund transfer failed.");
+            showError("Fund transfer failed");
         }
     }
 

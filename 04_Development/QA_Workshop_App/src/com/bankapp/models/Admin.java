@@ -1,6 +1,7 @@
 package com.bankapp.models;
 
 import com.bankapp.enums.AccountType;
+import com.bankapp.services.SessionManager;
 import database.DBConnection;
 
 import java.sql.Connection;
@@ -43,14 +44,32 @@ public class Admin extends AbstractUser {
      * @return true if account creation succeeds
      */
     public boolean createClientAccount(String userID) {
-        String sql = "INSERT INTO accounts (user_id, account_type, balance) VALUES (?, 'saving', 0)";
+        return createClientAccount(userID, AccountType.saving);
+    }
 
-        try (Connection conn = DBConnection.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+    public boolean createClientAccount(String userID, AccountType accountType) {
+        if (!validateUserID(userID) || accountType == null) {
+            return false;
+        }
 
-            ps.setString(1, userID);
-            ps.executeUpdate();
-            return true;
+        String generateSql = "SELECT COALESCE(MAX(CAST(account_number AS INTEGER)), 10000) + 1 FROM accounts";
+        String insertSql   = "INSERT INTO accounts (account_number, user_id, account_type, balance) VALUES (?, ?, ?, 0)";
+
+        try (Connection conn = DBConnection.connect()) {
+            String newAccountNo;
+
+            try (PreparedStatement genPs = conn.prepareStatement(generateSql);
+                 ResultSet rs = genPs.executeQuery()) {
+                newAccountNo = String.valueOf(rs.getInt(1));
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+                ps.setString(1, newAccountNo);
+                ps.setString(2, userID);
+                ps.setString(3, accountType.name().toLowerCase());
+                ps.executeUpdate();
+                return true;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,8 +89,7 @@ public class Admin extends AbstractUser {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, accountNo);
-            int rows = ps.executeUpdate();
-            return rows > 0;
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -164,28 +182,65 @@ public class Admin extends AbstractUser {
      * @return true if transfer succeeds
      */
     public boolean fundTransfer(String fromAcc, String toAcc, double amount) {
-        String debitSql  = "UPDATE accounts SET balance = balance - ? WHERE account_no = ?";
-        String creditSql = "UPDATE accounts SET balance = balance + ? WHERE account_no = ?";
-        String insertSql = "INSERT INTO transactions (amount, type, from_account_no, to_account_no) VALUES (?, 'FUND_TRANSFER', ?, ?)";
+        String currentUserID = SessionManager.getCurrentUserId();
+
+        if (!validateAccountNo(fromAcc) || !validateAccountNo(toAcc)
+                || fromAcc.equals(toAcc) || amount < 1000 || amount > 5000
+                || amount != Math.floor(amount) || currentUserID == null) {
+            return false;
+        }
+
+        String accountIdSql = "SELECT account_id FROM accounts WHERE account_number = ?";
+        String debitSql     = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
+        String creditSql    = "UPDATE accounts SET balance = balance + ? WHERE account_number = ?";
+        String insertSql    = "INSERT INTO transactions (from_account_id, to_account_id, transaction_type, amount, performed_by) VALUES (?, ?, 'transfer', ?, ?)";
 
         try (Connection conn = DBConnection.connect()) {
             conn.setAutoCommit(false);
 
-            try (PreparedStatement debitPs  = conn.prepareStatement(debitSql);
+            try (PreparedStatement accountPs = conn.prepareStatement(accountIdSql);
+                 PreparedStatement debitPs  = conn.prepareStatement(debitSql);
                  PreparedStatement creditPs = conn.prepareStatement(creditSql);
                  PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
 
+                int fromId;
+                accountPs.setString(1, fromAcc);
+                try (ResultSet rs = accountPs.executeQuery()) {
+                    if (!rs.next()) {
+                        conn.rollback();
+                        return false;
+                    }
+                    fromId = rs.getInt("account_id");
+                }
+
+                int toId;
+                accountPs.setString(1, toAcc);
+                try (ResultSet rs = accountPs.executeQuery()) {
+                    if (!rs.next()) {
+                        conn.rollback();
+                        return false;
+                    }
+                    toId = rs.getInt("account_id");
+                }
+
                 debitPs.setDouble(1, amount);
                 debitPs.setString(2, fromAcc);
-                debitPs.executeUpdate();
+                if (debitPs.executeUpdate() == 0) {
+                    conn.rollback();
+                    return false;
+                }
 
                 creditPs.setDouble(1, amount);
                 creditPs.setString(2, toAcc);
-                creditPs.executeUpdate();
+                if (creditPs.executeUpdate() == 0) {
+                    conn.rollback();
+                    return false;
+                }
 
-                insertPs.setDouble(1, amount);
-                insertPs.setString(2, fromAcc);
-                insertPs.setString(3, toAcc);
+                insertPs.setInt(1, fromId);
+                insertPs.setInt(2, toId);
+                insertPs.setDouble(3, amount);
+                insertPs.setInt(4, Integer.parseInt(currentUserID));
                 insertPs.executeUpdate();
 
                 conn.commit();

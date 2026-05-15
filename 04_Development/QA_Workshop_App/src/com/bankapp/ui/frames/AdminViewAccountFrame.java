@@ -1,12 +1,18 @@
 package com.bankapp.ui.frames;
 
 import com.bankapp.models.Admin;
+import com.bankapp.models.BankAccount;
 import com.bankapp.models.Client;
 import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
+import database.DBConnection;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Admin view account page.
@@ -46,14 +52,14 @@ public class AdminViewAccountFrame extends BaseFrame {
         searchButton.setBounds(380, 105, 35, 35);
         searchButton.addActionListener(e -> handleViewAccount());
 
-        String[] columns = {"userID", "firstName", "lastName", "email", "accountCount"};
+        String[] columns = {"Account Number", "Balance", "Last Transaction"};
         tableModel = new DefaultTableModel(columns, 0);
 
         JTable accountTable = new JTable(tableModel);
-        styleTable(accountTable, false, true);
+        styleTable(accountTable, true, false);
 
         JScrollPane scrollPane = new JScrollPane(accountTable);
-        scrollPane.setBounds(40, 195, 380, 130);
+        scrollPane.setBounds(40, 190, 800, 300);
         scrollPane.setBorder(BorderFactory.createLineBorder(BACKGROUND_COLOR));
 
         pagePanel.add(homeButton);
@@ -72,42 +78,70 @@ public class AdminViewAccountFrame extends BaseFrame {
         String userID = userIdField.getText().trim();
 
         if (userID.isEmpty()) {
-            showError("Please enter a user ID.");
+            showError("Please enter valid User ID");
             return;
         }
 
         ValidationService validationService = new ValidationService();
 
         if (!validationService.validateUserID(userID)) {
-            showError("Invalid user ID.");
+            showError("Please enter valid User ID");
             return;
         }
 
         if (!validationService.isUserIDExists(userID)) {
-            showError("User ID does not exist.");
+            showError("Please enter valid User ID");
             return;
         }
 
         Admin admin = new Admin();
         Client client = admin.viewClientDetails(userID);
 
-      /*  if (client == null) {
-            showError("Client details not found.");
+        if (client == null) {
+            showError("Please enter valid User ID");
             return;
-        }*/
+        }
 
         showClientDetails(client);
     }
 
     private void showClientDetails(Client client) {
         tableModel.setRowCount(0);
-        tableModel.addRow(new Object[] {
-                client.getUserID(),
-                client.getFirstName(),
-                client.getLastName(),
-                client.getEmail(),
-                client.getAccounts().size()
-        });
+
+        for (BankAccount account : client.getAccounts()) {
+            tableModel.addRow(new Object[] {
+                    account.getAccountNo(),
+                    account.getBalance(),
+                    getLastTransaction(account.getAccountNo())
+            });
+        }
+    }
+
+    private String getLastTransaction(String accountNo) {
+        String sql = "SELECT t.created_at, t.transaction_type, t.amount " +
+                     "FROM transactions t " +
+                     "JOIN accounts a ON a.account_id = t.from_account_id OR a.account_id = t.to_account_id " +
+                     "WHERE a.account_number = ? " +
+                     "ORDER BY t.created_at DESC LIMIT 1";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, accountNo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("transaction_type") + " - " +
+                           rs.getDouble("amount") + " - " +
+                           rs.getString("created_at");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "No transactions";
     }
 
     private void handleHome() {

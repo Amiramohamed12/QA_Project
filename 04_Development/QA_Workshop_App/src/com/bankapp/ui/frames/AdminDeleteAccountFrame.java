@@ -58,19 +58,19 @@ public class AdminDeleteAccountFrame extends BaseFrame {
         String accountNo = accountNoField.getText().trim();
 
         if (accountNo.isEmpty()) {
-            showError("Please enter an account number.");
+            showError("Please enter valid account number");
             return;
         }
 
         ValidationService validationService = new ValidationService();
 
         if (!validationService.validateAccountNo(accountNo)) {
-            showError("Invalid account number.");
+            showError("Please enter valid account number");
             return;
         }
 
         if (!validationService.isAccountExists(accountNo)) {
-            showError("Account number does not exist.");
+            showError("Please enter valid account number");
             return;
         }
 
@@ -78,9 +78,9 @@ public class AdminDeleteAccountFrame extends BaseFrame {
         boolean deleted = admin.deleteClientAccount(accountNo);
 
         if (deleted) {
-            showSuccess("Account deleted successfully.");
+            showSuccess("Account deleted successfully with account number " + accountNo);
         } else {
-            showError("Account deletion failed.");
+            showError("Account deletion failed");
         }
     }
 

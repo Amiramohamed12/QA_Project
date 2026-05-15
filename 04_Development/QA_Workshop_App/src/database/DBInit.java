@@ -20,6 +20,11 @@ public class DBInit {
                 );
             """);
 
+            // Start auto-generated user IDs at 10000.
+            stmt.execute("DELETE FROM sqlite_sequence WHERE name = 'users' AND rowid NOT IN (SELECT MIN(rowid) FROM sqlite_sequence WHERE name = 'users')");
+            stmt.execute("UPDATE sqlite_sequence SET seq = 9999 WHERE name = 'users' AND seq < 9999");
+            stmt.execute("INSERT INTO sqlite_sequence(name, seq) SELECT 'users', 9999 WHERE NOT EXISTS (SELECT 1 FROM sqlite_sequence WHERE name = 'users')");
+
             // ACCOUNTS TABLE
             stmt.execute("""
                 CREATE TABLE IF NOT EXISTS accounts (

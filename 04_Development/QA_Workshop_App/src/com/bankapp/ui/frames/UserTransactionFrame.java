@@ -1,6 +1,7 @@
 package com.bankapp.ui.frames;
 
 import com.bankapp.models.Client;
+import com.bankapp.services.SessionManager;
 import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
@@ -192,8 +193,13 @@ public class UserTransactionFrame extends BaseFrame {
         String accountNo = depositAccountField.getText().trim();
         String amountText = depositAmountField.getText().trim();
 
-        if (accountNo.isEmpty() || amountText.isEmpty()) {
-            showError("Please enter account number and amount.");
+        if (accountNo.isEmpty()) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (amountText.isEmpty()) {
+            showError("Please enter valid amount");
             return;
         }
 
@@ -203,7 +209,7 @@ public class UserTransactionFrame extends BaseFrame {
             return;
         }
 
-        if (!validateAccountAndAmount(accountNo, amount)) {
+        if (!validateAccountAndAmount(accountNo, amount, false)) {
             return;
         }
 
@@ -211,7 +217,7 @@ public class UserTransactionFrame extends BaseFrame {
         boolean deposited = client.deposit(accountNo, amount);
 
         if (deposited) {
-            showSuccess("Deposit completed successfully.");
+            showSuccess("Transaction done successfully");
         } else {
             showError("Deposit failed.");
         }
@@ -221,8 +227,13 @@ public class UserTransactionFrame extends BaseFrame {
         String accountNo = withdrawAccountField.getText().trim();
         String amountText = withdrawAmountField.getText().trim();
 
-        if (accountNo.isEmpty() || amountText.isEmpty()) {
-            showError("Please enter account number and amount.");
+        if (accountNo.isEmpty()) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (amountText.isEmpty()) {
+            showError("Please enter valid amount");
             return;
         }
 
@@ -232,7 +243,7 @@ public class UserTransactionFrame extends BaseFrame {
             return;
         }
 
-        if (!validateAccountAndAmount(accountNo, amount)) {
+        if (!validateAccountAndAmount(accountNo, amount, true)) {
             return;
         }
 
@@ -240,7 +251,7 @@ public class UserTransactionFrame extends BaseFrame {
         boolean withdrawn = client.withdraw(accountNo, amount);
 
         if (withdrawn) {
-            showSuccess("Withdraw completed successfully.");
+            showSuccess("Transaction done successfully");
         } else {
             showError("Withdraw failed.");
         }
@@ -251,13 +262,18 @@ public class UserTransactionFrame extends BaseFrame {
         String fromAcc = transferFromField.getText().trim();
         String amountText = transferAmountField.getText().trim();
 
-        if (toAcc.isEmpty() || fromAcc.isEmpty() || amountText.isEmpty()) {
-            showError("Please fill in all fund transfer fields.");
+        if (toAcc.isEmpty() || fromAcc.isEmpty()) {
+            showError("Please enter valid account number");
+            return;
+        }
+
+        if (amountText.isEmpty()) {
+            showError("Please enter valid amount");
             return;
         }
 
         if (fromAcc.equals(toAcc)) {
-            showError("From account and to account cannot be the same.");
+            showError("Please enter different valid account number");
             return;
         }
 
@@ -268,29 +284,37 @@ public class UserTransactionFrame extends BaseFrame {
         }
 
         ValidationService validationService = new ValidationService();
+        String currentUserID = SessionManager.getCurrentUserId();
 
         if (!validationService.validateAccountNo(fromAcc)) {
-            showError("Invalid from account number.");
+            showError("Please enter valid account number");
             return;
         }
 
         if (!validationService.validateAccountNo(toAcc)) {
-            showError("Invalid to account number.");
+            showError("Please enter valid account number");
             return;
         }
 
-        if (!validationService.isAccountExists(fromAcc)) {
-            showError("From account does not exist.");
+        if (!validationService.isAccountExists(fromAcc)
+                || !validationService.isAccountOwnedByUser(fromAcc, currentUserID)) {
+            showError("Please enter valid account number");
             return;
         }
 
-        if (!validationService.isAccountExists(toAcc)) {
-            showError("To account does not exist.");
+        if (!validationService.isAccountExists(toAcc)
+                || !validationService.isAccountOwnedByUser(toAcc, currentUserID)) {
+            showError("Please enter valid account number");
             return;
         }
 
         if (!validationService.validateAmount(amount)) {
-            showError("Invalid amount.");
+            showError("Please enter valid amount");
+            return;
+        }
+
+        if (validationService.getAccountBalance(fromAcc) < amount) {
+            showError("Please enter valid amount");
             return;
         }
 
@@ -298,7 +322,7 @@ public class UserTransactionFrame extends BaseFrame {
         boolean transferred = client.fundTransfer(fromAcc, toAcc, amount);
 
         if (transferred) {
-            showSuccess("Fund transfer completed successfully.");
+            showSuccess("Transaction done successfully");
         } else {
             showError("Fund transfer failed.");
         }
@@ -308,19 +332,21 @@ public class UserTransactionFrame extends BaseFrame {
         String accountNo = historyAccountField.getText().trim();
 
         if (accountNo.isEmpty()) {
-            showError("Please enter an account number.");
+            showError("Please enter valid account number");
             return;
         }
 
         ValidationService validationService = new ValidationService();
+        String currentUserID = SessionManager.getCurrentUserId();
 
         if (!validationService.validateAccountNo(accountNo)) {
-            showError("Invalid account number.");
+            showError("Please enter valid account number");
             return;
         }
 
-        if (!validationService.isAccountExists(accountNo)) {
-            showError("Account number does not exist.");
+        if (!validationService.isAccountExists(accountNo)
+                || !validationService.isAccountOwnedByUser(accountNo, currentUserID)) {
+            showError("Please enter valid account number");
             return;
         }
 
@@ -343,29 +369,41 @@ public class UserTransactionFrame extends BaseFrame {
     }
 
     private double parseAmount(String amountText) {
+        if (!amountText.matches("\\d+")) {
+            showError("Please enter valid amount");
+            return -1;
+        }
+
         try {
             return Double.parseDouble(amountText);
         } catch (NumberFormatException e) {
-            showError("Invalid amount.");
+            showError("Please enter valid amount");
             return -1;
         }
     }
 
-    private boolean validateAccountAndAmount(String accountNo, double amount) {
+    private boolean validateAccountAndAmount(String accountNo, double amount, boolean requireSufficientFunds) {
         ValidationService validationService = new ValidationService();
+        String currentUserID = SessionManager.getCurrentUserId();
 
         if (!validationService.validateAccountNo(accountNo)) {
-            showError("Invalid account number.");
+            showError("Please enter valid account number");
             return false;
         }
 
-        if (!validationService.isAccountExists(accountNo)) {
-            showError("Account number does not exist.");
+        if (!validationService.isAccountExists(accountNo)
+                || !validationService.isAccountOwnedByUser(accountNo, currentUserID)) {
+            showError("Please enter valid account number");
             return false;
         }
 
         if (!validationService.validateAmount(amount)) {
-            showError("Invalid amount.");
+            showError("Please enter valid amount");
+            return false;
+        }
+
+        if (requireSufficientFunds && validationService.getAccountBalance(accountNo) < amount) {
+            showError("Please enter valid amount");
             return false;
         }
 

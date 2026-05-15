@@ -134,4 +134,5 @@ public class BankAccount {
     public boolean validateAccountNo(String accountNo) {
         return accountNo != null && accountNo.matches("\\d{5}");
     }
+
 }

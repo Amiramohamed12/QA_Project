@@ -12,7 +12,7 @@ public class ValidationService {
     public static final double MIN_AMOUNT         = 1000;
     public static final double MAX_AMOUNT         = 5000;
     public static final int    ACCOUNT_NO_LENGTH  = 5;
-    public static final int    USER_ID_LENGTH     = 1;
+    public static final int    USER_ID_LENGTH     = 5;
     public static final int    MAX_ACCOUNTS       = 3;
     public static final int    MIN_PASSWORD_LENGTH = 5;
     public static final int    MAX_PASSWORD_LENGTH = 30;
@@ -28,7 +28,7 @@ public class ValidationService {
     }
 
     public boolean validateAmount(double amount) {
-        return amount >= MIN_AMOUNT && amount <= MAX_AMOUNT;
+        return amount >= MIN_AMOUNT && amount <= MAX_AMOUNT && amount == Math.floor(amount);
     }
 
     public boolean validateAccountLimit(int count) {
@@ -62,7 +62,9 @@ public class ValidationService {
             return false;
         }
 
-        return email.contains("@") && email.contains(".") && !email.contains(" ");
+        return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
+                && !email.contains("@.")
+                && !email.contains("..");
     }
 
     public boolean validatePassword(String password) {
@@ -114,6 +116,51 @@ public class ValidationService {
         }
 
         return false;
+    }
+
+    public boolean isAccountOwnedByUser(String accountNo, String userID) {
+        if (accountNo == null || userID == null) {
+            return false;
+        }
+
+        String sql = "SELECT 1 FROM accounts WHERE account_number = ? AND user_id = ?";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, accountNo);
+            ps.setString(2, userID);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public double getAccountBalance(String accountNo) {
+        String sql = "SELECT balance FROM accounts WHERE account_number = ?";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, accountNo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("balance");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
     private boolean meetsPasswordConstraints(String password) {

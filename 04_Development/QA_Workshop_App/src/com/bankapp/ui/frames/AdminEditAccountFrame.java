@@ -1,6 +1,7 @@
 package com.bankapp.ui.frames;
 
 import com.bankapp.models.Admin;
+import com.bankapp.models.Client;
 import com.bankapp.services.ValidationService;
 import com.bankapp.ui.BaseFrame;
 
@@ -95,19 +96,27 @@ public class AdminEditAccountFrame extends BaseFrame {
         String userID = userIdField.getText().trim();
 
         if (userID.isEmpty()) {
-            showError("Please enter a user ID.");
+            showError("Please enter valid User ID");
             return;
         }
 
         ValidationService validationService = new ValidationService();
 
         if (!validationService.validateUserID(userID)) {
-            showError("Invalid user ID.");
+            showError("Please enter valid User ID");
             return;
         }
 
         if (!validationService.isUserIDExists(userID)) {
-            showError("User ID does not exist.");
+            showError("Please enter valid User ID");
+            return;
+        }
+
+        Admin admin = new Admin();
+        Client client = admin.viewClientDetails(userID);
+
+        if (client == null) {
+            showError("Please enter valid User ID");
             return;
         }
 
@@ -116,12 +125,9 @@ public class AdminEditAccountFrame extends BaseFrame {
         emailField.setEnabled(true);
         saveButton.setEnabled(true);
 
-        firstNameField.setText("Omar");
-        lastNameField.setText("Kandeel");
-        emailField.setText("omar@example.com");
-
-        // TODO: load real user info from backend.
-        showSuccess("Sample user data loaded.");
+        firstNameField.setText(client.getFirstName());
+        lastNameField.setText(client.getLastName());
+        emailField.setText(client.getEmail());
     }
 
     private void handleEditAccount() {
@@ -133,12 +139,12 @@ public class AdminEditAccountFrame extends BaseFrame {
         ValidationService validationService = new ValidationService();
 
         if (!validationService.validateUserID(userID)) {
-            showError("Invalid user ID.");
+            showError("Please enter valid User ID");
             return;
         }
 
         if (!validationService.isUserIDExists(userID)) {
-            showError("User ID does not exist.");
+            showError("Please enter valid User ID");
             return;
         }
 
@@ -153,17 +159,17 @@ public class AdminEditAccountFrame extends BaseFrame {
         }
 
         if (!validationService.validateName(firstName)) {
-            showError("Invalid first name.");
+            showError("Please enter valid User ID");
             return;
         }
 
         if (!validationService.validateName(lastName)) {
-            showError("Invalid last name.");
+            showError("Please enter valid User ID");
             return;
         }
 
         if (!validationService.validateEmail(email)) {
-            showError("Invalid email.");
+            showError("Please enter valid User ID");
             return;
         }
 
@@ -171,9 +177,9 @@ public class AdminEditAccountFrame extends BaseFrame {
         boolean updated = admin.editClientData(userID, firstName, lastName, email);
 
         if (updated) {
-            showSuccess("Account info updated successfully.");
+            showSuccess("Account data updated successfully");
         } else {
-            showError("Account update failed.");
+            showError("Account update failed");
         }
     }
 
