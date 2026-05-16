@@ -1,0 +1,15 @@
+flowchart TD
+    v1_start(["Start AdminViewAccountFrame.getLastTransaction"])
+    v1_end(["End AdminViewAccountFrame.getLastTransaction"])
+    v1_a["Open the database and prepare the lookup"]
+    v1_b["Load and return the newest transaction for the account"]
+    v1_d{"Requested data found?"}
+    v1_ok["Return the found data in the expected format"]
+    v1_miss["Return an empty, null, false, or fallback result"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_d
+    v1_d -->|"Yes"| v1_ok
+    v1_d -->|"No"| v1_miss
+    v1_ok --> v1_end
+    v1_miss --> v1_end

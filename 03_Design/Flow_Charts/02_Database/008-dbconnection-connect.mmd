@@ -1,8 +1,0 @@
-flowchart TD
-    A[Start] --> B[Load SQLite JDBC driver]
-    B --> C{Driver and connection succeeded?}
-    C -- Yes --> D[Return sqlite connection]
-    C -- No --> E[Print exception]
-    E --> F[Return null]
-    D --> G[End]
-    F --> G

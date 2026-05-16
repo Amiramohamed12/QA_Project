@@ -1,0 +1,23 @@
+flowchart TD
+    entry(["Start BankAccount.BankAccount"])
+    done(["End BankAccount.BankAccount"])
+    pick{"Choose the bank account variant being called"}
+    entry --> pick
+    v1_start(["Start BankAccount.BankAccount variant 1"])
+    v1_end(["End BankAccount.BankAccount variant 1"])
+    v1_s0["Create an empty bank account object"]
+    v1_s1["Set only the default values needed right away"]
+    v1_start --> v1_s0
+    v1_s0 --> v1_s1
+    v1_s1 --> v1_end
+    pick -->|"Variant 1"| v1_start
+    v1_end --> done
+    v2_start(["Start BankAccount.BankAccount variant 2"])
+    v2_end(["End BankAccount.BankAccount variant 2"])
+    v2_s0["Receive starting data: account number, account type, balance, owner user ID"]
+    v2_s1["Store the values as the object initial state"]
+    v2_start --> v2_s0
+    v2_s0 --> v2_s1
+    v2_s1 --> v2_end
+    pick -->|"Variant 2"| v2_start
+    v2_end --> done

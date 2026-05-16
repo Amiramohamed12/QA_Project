@@ -1,0 +1,8 @@
+flowchart TD
+    v1_start(["Start SessionManager.getCurrentRole"])
+    v1_end(["End SessionManager.getCurrentRole"])
+    v1_a["Read the stored current role"]
+    v1_b["Return the current role to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end

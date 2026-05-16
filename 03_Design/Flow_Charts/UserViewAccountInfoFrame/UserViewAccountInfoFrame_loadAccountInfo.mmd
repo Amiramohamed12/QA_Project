@@ -1,0 +1,15 @@
+flowchart TD
+    v1_start(["Start UserViewAccountInfoFrame.loadAccountInfo"])
+    v1_end(["End UserViewAccountInfoFrame.loadAccountInfo"])
+    v1_a["Read form values or current session"]
+    v1_d{"Do the main rules pass?<br/>(user ID is present, 5 digits, and exists when needed; account number is valid and found when needed)"}
+    v1_bad["Show the matching error message and stop"]
+    v1_act["Load the current user accounts and fill the account table"]
+    v1_done["Show success, failure, or loaded data based on the result"]
+    v1_start --> v1_a
+    v1_a --> v1_d
+    v1_d -->|"No"| v1_bad
+    v1_bad --> v1_end
+    v1_d -->|"Yes"| v1_act
+    v1_act --> v1_done
+    v1_done --> v1_end

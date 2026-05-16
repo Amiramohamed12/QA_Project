@@ -1,0 +1,15 @@
+flowchart TD
+    v1_start(["Start AdminFundTransferFrame.handleFundTransfer"])
+    v1_end(["End AdminFundTransferFrame.handleFundTransfer"])
+    v1_a["Read form values or current session"]
+    v1_d{"Do the main rules pass?<br/>(source and target accounts are valid, found, and different; amount is a whole number from 1000 to 5000; source account has enough balance)"}
+    v1_bad["Show the matching error message and stop"]
+    v1_act["Move money between accounts and record it"]
+    v1_done["Show success, failure, or loaded data based on the result"]
+    v1_start --> v1_a
+    v1_a --> v1_d
+    v1_d -->|"No"| v1_bad
+    v1_bad --> v1_end
+    v1_d -->|"Yes"| v1_act
+    v1_act --> v1_done
+    v1_done --> v1_end

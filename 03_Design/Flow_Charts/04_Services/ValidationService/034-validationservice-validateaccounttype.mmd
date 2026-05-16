@@ -1,8 +1,0 @@
-flowchart TD
-    A[Start] --> B{Type is null?}
-    B -- Yes --> C[Return false]
-    B -- No --> D{Type is SAVING or CURRENT?}
-    D -- Yes --> E[Return true]
-    D -- No --> C
-    C --> F[End]
-    E --> F

@@ -1,0 +1,22 @@
+flowchart TD
+    v1_start(["Start Admin.editClientData"])
+    v1_end(["End Admin.editClientData"])
+    v1_a["Check the request has the needed valid data"]
+    v1_d{"Do the main rules pass?<br/>(user ID is present, 5 digits, and exists when needed; names are letters-only and the right length; email format is valid)"}
+    v1_bad["Return failure or no result"]
+    v1_b["Open the database"]
+    v1_c["Update the client name and email in the users table"]
+    v1_d2{"Database operation succeeds?"}
+    v1_ok["Return success or the created result"]
+    v1_fail["Return failure after handling the error"]
+    v1_start --> v1_a
+    v1_a --> v1_d
+    v1_d -->|"No"| v1_bad
+    v1_bad --> v1_end
+    v1_d -->|"Yes"| v1_b
+    v1_b --> v1_c
+    v1_c --> v1_d2
+    v1_d2 -->|"Yes"| v1_ok
+    v1_d2 -->|"No"| v1_fail
+    v1_ok --> v1_end
+    v1_fail --> v1_end

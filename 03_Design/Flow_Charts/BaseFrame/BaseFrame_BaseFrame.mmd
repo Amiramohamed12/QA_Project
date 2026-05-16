@@ -1,0 +1,27 @@
+flowchart TD
+    entry(["Start BaseFrame.BaseFrame"])
+    done(["End BaseFrame.BaseFrame"])
+    pick{"Choose the base frame variant being called"}
+    entry --> pick
+    v1_start(["Start BaseFrame.BaseFrame variant 1"])
+    v1_end(["End BaseFrame.BaseFrame variant 1"])
+    v1_s0["Create the base page window"]
+    v1_s1["Apply shared window setup"]
+    v1_s2["Build controls so the page is ready"]
+    v1_start --> v1_s0
+    v1_s0 --> v1_s1
+    v1_s1 --> v1_s2
+    v1_s2 --> v1_end
+    pick -->|"Variant 1"| v1_start
+    v1_end --> done
+    v2_start(["Start BaseFrame.BaseFrame variant 2"])
+    v2_end(["End BaseFrame.BaseFrame variant 2"])
+    v2_s0["Create the base page window"]
+    v2_s1["Apply shared window setup"]
+    v2_s2["Build controls so the page is ready"]
+    v2_start --> v2_s0
+    v2_s0 --> v2_s1
+    v2_s1 --> v2_s2
+    v2_s2 --> v2_end
+    pick -->|"Variant 2"| v2_start
+    v2_end --> done

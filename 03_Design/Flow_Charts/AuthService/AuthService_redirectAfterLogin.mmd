@@ -1,0 +1,16 @@
+flowchart TD
+    v1_start(["Start AuthService.redirectAfterLogin"])
+    v1_end(["End AuthService.redirectAfterLogin"])
+    v1_a["Receive the authenticated role"]
+    v1_d{"Which role was returned?"}
+    v1_admin["Open the admin home page"]
+    v1_client["Open the user home page"]
+    v1_other["Stay on the login page"]
+    v1_start --> v1_a
+    v1_a --> v1_d
+    v1_d -->|"Admin"| v1_admin
+    v1_d -->|"Client"| v1_client
+    v1_d -->|"Other"| v1_other
+    v1_admin --> v1_end
+    v1_client --> v1_end
+    v1_other --> v1_end

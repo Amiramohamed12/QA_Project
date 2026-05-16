@@ -1,0 +1,22 @@
+flowchart TD
+    v1_start(["Start Admin.fundTransfer"])
+    v1_end(["End Admin.fundTransfer"])
+    v1_a["Check session, account, amount, and balance rules"]
+    v1_d1{"Do the main rules pass?<br/>(user ID is present, 5 digits, and exists when needed; source and target accounts are valid, found, and different; amount is a whole number from 1000 to 5000; source account has enough balance)"}
+    v1_bad["Return failure without changing money"]
+    v1_b["Start a database transaction"]
+    v1_c["Transfer money from the source account to the target account and record it"]
+    v1_d2{"All database updates succeed?"}
+    v1_ok["Commit and return success"]
+    v1_fail["Roll back changes and return failure"]
+    v1_start --> v1_a
+    v1_a --> v1_d1
+    v1_d1 -->|"No"| v1_bad
+    v1_bad --> v1_end
+    v1_d1 -->|"Yes"| v1_b
+    v1_b --> v1_c
+    v1_c --> v1_d2
+    v1_d2 -->|"Yes"| v1_ok
+    v1_d2 -->|"No"| v1_fail
+    v1_ok --> v1_end
+    v1_fail --> v1_end

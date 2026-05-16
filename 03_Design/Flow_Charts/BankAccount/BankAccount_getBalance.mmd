@@ -1,0 +1,8 @@
+flowchart TD
+    v1_start(["Start BankAccount.getBalance"])
+    v1_end(["End BankAccount.getBalance"])
+    v1_a["Read the stored balance"]
+    v1_b["Return the balance to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end

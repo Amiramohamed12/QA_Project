@@ -1,0 +1,8 @@
+flowchart TD
+    v1_start(["Start DBConnection.connect"])
+    v1_end(["End DBConnection.connect"])
+    v1_a["Open a connection to the SQLite bank database"]
+    v1_b["Return the expected result to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end

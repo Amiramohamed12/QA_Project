@@ -1,0 +1,10 @@
+flowchart TD
+    v1_start(["Start Admin.setAdminID"])
+    v1_end(["End Admin.setAdminID"])
+    v1_a["Receive the new admin ID"]
+    v1_b["Update the object stored admin ID"]
+    v1_c["Leave the object ready for later use"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_c
+    v1_c --> v1_end

@@ -1,0 +1,15 @@
+flowchart TD
+    v1_start(["Start LoginFrame.handleLogin"])
+    v1_end(["End LoginFrame.handleLogin"])
+    v1_a["Read form values or current session"]
+    v1_d{"Do the main rules pass?<br/>(email format is valid; password format and length are valid)"}
+    v1_bad["Show the matching error message and stop"]
+    v1_act["Authenticate the login details and choose the next page"]
+    v1_done["Show success, failure, or loaded data based on the result"]
+    v1_start --> v1_a
+    v1_a --> v1_d
+    v1_d -->|"No"| v1_bad
+    v1_bad --> v1_end
+    v1_d -->|"Yes"| v1_act
+    v1_act --> v1_done
+    v1_done --> v1_end

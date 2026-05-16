@@ -1,0 +1,8 @@
+flowchart TD
+    v1_start(["Start SessionManager.getCurrentUserId"])
+    v1_end(["End SessionManager.getCurrentUserId"])
+    v1_a["Read the stored current user id"]
+    v1_b["Return the current user id to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end

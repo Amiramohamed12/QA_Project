@@ -1,9 +1,0 @@
-flowchart TD
-    A[Start] --> B{Role equals admin?}
-    B -- Yes --> C[Open AdminHomeFrame]
-    B -- No --> D{Role equals client?}
-    D -- Yes --> E[Open UserHomeFrame]
-    D -- No --> F[Show invalid data error]
-    C --> G[End]
-    E --> G
-    F --> G

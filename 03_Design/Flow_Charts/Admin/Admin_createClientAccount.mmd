@@ -1,0 +1,37 @@
+flowchart TD
+    entry(["Start Admin.createClientAccount"])
+    done(["End Admin.createClientAccount"])
+    pick{"Choose the create client account variant being called"}
+    entry --> pick
+    v1_start(["Start Admin.createClientAccount variant 1"])
+    v1_end(["End Admin.createClientAccount variant 1"])
+    v1_a["Generate the next account number and create it for the selected client"]
+    v1_b["Return the expected result to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end
+    pick -->|"Variant 1"| v1_start
+    v1_end --> done
+    v2_start(["Start Admin.createClientAccount variant 2"])
+    v2_end(["End Admin.createClientAccount variant 2"])
+    v2_a["Check the request has the needed valid data"]
+    v2_d{"Do the main rules pass?<br/>(user ID is present, 5 digits, and exists when needed; source and target accounts are valid, found, and different; source account has enough balance; names are letters-only and the right length)"}
+    v2_bad["Return failure or no result"]
+    v2_b["Open the database"]
+    v2_c["Generate the next account number and create it for the selected client"]
+    v2_d2{"Database operation succeeds?"}
+    v2_ok["Return success or the created result"]
+    v2_fail["Return failure after handling the error"]
+    v2_start --> v2_a
+    v2_a --> v2_d
+    v2_d -->|"No"| v2_bad
+    v2_bad --> v2_end
+    v2_d -->|"Yes"| v2_b
+    v2_b --> v2_c
+    v2_c --> v2_d2
+    v2_d2 -->|"Yes"| v2_ok
+    v2_d2 -->|"No"| v2_fail
+    v2_ok --> v2_end
+    v2_fail --> v2_end
+    pick -->|"Variant 2"| v2_start
+    v2_end --> done

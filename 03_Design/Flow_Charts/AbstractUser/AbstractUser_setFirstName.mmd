@@ -1,0 +1,10 @@
+flowchart TD
+    v1_start(["Start AbstractUser.setFirstName"])
+    v1_end(["End AbstractUser.setFirstName"])
+    v1_a["Receive the new first name"]
+    v1_b["Update the object stored first name"]
+    v1_c["Leave the object ready for later use"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_c
+    v1_c --> v1_end

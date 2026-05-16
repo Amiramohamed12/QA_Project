@@ -1,0 +1,10 @@
+flowchart TD
+    v1_start(["Start Main.main"])
+    v1_end(["End Main.main"])
+    v1_a["Start the desktop application"]
+    v1_b["Prepare the database before showing screens"]
+    v1_c["Open the login screen"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_c
+    v1_c --> v1_end

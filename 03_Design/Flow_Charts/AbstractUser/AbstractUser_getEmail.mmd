@@ -1,0 +1,8 @@
+flowchart TD
+    v1_start(["Start AbstractUser.getEmail"])
+    v1_end(["End AbstractUser.getEmail"])
+    v1_a["Read the stored email"]
+    v1_b["Return the email to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end

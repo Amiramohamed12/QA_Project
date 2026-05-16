@@ -1,0 +1,13 @@
+flowchart TD
+    v1_start(["Start ValidationService.validateAccountType"])
+    v1_end(["End ValidationService.validateAccountType"])
+    v1_a["Check that the selected account type is Saving or Current"]
+    v1_d{"Account type is allowed?"}
+    v1_ok["Return true"]
+    v1_bad["Return false"]
+    v1_start --> v1_a
+    v1_a --> v1_d
+    v1_d -->|"Yes"| v1_ok
+    v1_d -->|"No"| v1_bad
+    v1_ok --> v1_end
+    v1_bad --> v1_end

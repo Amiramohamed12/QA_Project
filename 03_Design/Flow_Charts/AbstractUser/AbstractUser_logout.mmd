@@ -1,0 +1,8 @@
+flowchart TD
+    v1_start(["Start AbstractUser.logout"])
+    v1_end(["End AbstractUser.logout"])
+    v1_a["Clear the saved session so the user is logged out"]
+    v1_b["Return the expected result to the caller"]
+    v1_start --> v1_a
+    v1_a --> v1_b
+    v1_b --> v1_end
